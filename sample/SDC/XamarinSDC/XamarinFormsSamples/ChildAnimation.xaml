@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="XamarinSDC.ChildAnimation" 
+             Title="Child Animations" 
+             Icon="xaml.png">
+	<StackLayout Margin="0,20,0,0">
+        <Image x:Name="image" Source="CircularUI_round.png" VerticalOptions="CenterAndExpand" WidthRequest="500"/>
+		<Button x:Name="startButton" Text="Start Animation" Clicked="OnStartAnimationButtonClicked" VerticalOptions="End" />
+		<Button x:Name="cancelButton" Text="Cancel Animation" Clicked="OnCancelAnimationButtonClicked" IsEnabled="false" />
+	</StackLayout>
+</ContentPage>

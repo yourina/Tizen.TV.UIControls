@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tvcontrols="clr-namespace:Tizen.TV.UIControls.Forms;assembly=Tizen.TV.UIControls.Forms"
+             xmlns:local="clr-namespace:XamarinSDC;assembly=XamarinSDC"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="XamarinSDC.HeaderTest">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="FillAndExpand">
+            <local:ColorListView Orientation="Vertical" ColumnCount="5"
+                        ContentMargin="100"
+                        ItemHeight="200"
+                        Spacing="30"
+                        ItemsSource="{Binding Items}">
+                <tvcontrols:RecycleItemsView.Header>
+                    <StackLayout HeightRequest="200" Padding="20" BackgroundColor="Coral">
+                        <Label VerticalOptions="CenterAndExpand" FontSize="Large" Text="Color List"/>
+                    </StackLayout>
+                </tvcontrols:RecycleItemsView.Header>
+                <tvcontrols:RecycleItemsView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout BackgroundColor="{Binding Color}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                            <Label Text="{Binding Text}" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </tvcontrols:RecycleItemsView.ItemTemplate>
+            </local:ColorListView>
+            <!-- spacer -->
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

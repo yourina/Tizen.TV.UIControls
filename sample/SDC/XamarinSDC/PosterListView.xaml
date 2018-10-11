@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:tv="clr-namespace:Tizen.TV.UIControls.Forms;assembly=Tizen.TV.UIControls.Forms"
+             xmlns:local="clr-namespace:XamarinSDC;assembly=XamarinSDC"
+             x:Class="XamarinSDC.PosterListView">
+  <ContentView.Resources>
+        <ResourceDictionary>
+        </ResourceDictionary>
+  </ContentView.Resources>
+  <ContentView.Content>
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+            <Label Margin="30, 50, 0, 0" FontSize="90" TextColor="#e0e0e0" Text="{Binding Title}" FontAttributes="Bold"/>
+            <tv:RecycleItemsView x:Name="ItemsView" ContentMargin="100, 50, 100, 50" Spacing="60"
+                                 ItemsSource="{Binding Items}"
+                                 ItemSelected="RecycleItemsView_ItemSelected">
+                <tv:RecycleItemsView.ItemTemplate>
+                    <DataTemplate>
+                        <AbsoluteLayout>
+                            <ff:CachedImage LoadingPlaceholder="GitHub-Mark.png" Source="{Binding PosterPath}" Aspect="Fill" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"/>
+                            <StackLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Orientation="Vertical">
+                                <StackLayout VerticalOptions="FillAndExpand"/>
+                                <StackLayout Padding="30" HorizontalOptions="FillAndExpand" BackgroundColor="#aa000000">
+                                    <Label Text="{Binding OriginalTitle}" TextColor="#e0e0e0" FontSize="70" FontAttributes="Bold" />
+                                </StackLayout>
+                            </StackLayout>
+                        </AbsoluteLayout>
+                    </DataTemplate>
+                </tv:RecycleItemsView.ItemTemplate>
+            </tv:RecycleItemsView>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>
