@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace XamarinSDC
 {
@@ -15,6 +16,7 @@ namespace XamarinSDC
         public string IconPath { get; set; }
         public string PosterPath { get; set; }
         public string BackdropPath { get; set; }
+        public ContentPage Page { get; set; }
     }
 
     public class ScreenCapture

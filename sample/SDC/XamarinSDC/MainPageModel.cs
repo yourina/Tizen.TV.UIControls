@@ -31,7 +31,7 @@ namespace XamarinSDC
         {
             MenuItems = new List<MenuItemModel>() {
                 new MenuItemModel {Text = "Xamarin.Forms Samples", Icon = "Xamarin_1.png" },
-                new MenuItemModel {Text = "Xamarin Essentials Samples" , Icon = "Essential_1.png"},
+                new MenuItemModel {Text = "SkiaSharp Sample" , Icon = "Essential_1.png"},
                 new MenuItemModel {Text = "3rd Party Library Samples" , Icon = "Xamarin_1.png"},
                 new MenuItemModel {Text = "TV.UIControls Samples", Icon = "TVUI_round_1.png"},
                 new MenuItemModel {Text = "Reference Apps", Icon = "TMDb_0.png"}

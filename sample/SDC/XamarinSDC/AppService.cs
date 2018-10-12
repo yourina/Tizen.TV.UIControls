@@ -30,13 +30,13 @@ namespace XamarinSDC
 
             int cnt = 0;
             captureCount.TryGetValue(id, out cnt);
-            Log.Debug("Demo", "Cnt :"+ cnt);
-            for(int i = 1; i<= cnt; i++)
+            Log.Debug("Demo", "Cnt :" + cnt);
+            for (int i = 1; i <= cnt; i++)
             {
                 ScreenCapture newItem = new ScreenCapture
                 {
                     Title = "#" + i,
-                    PosterPath = identifier + "_"+i+".png",
+                    PosterPath = identifier + "_" + i + ".png",
                     Id = id,
                 };
                 items.Add(newItem);
@@ -52,7 +52,7 @@ namespace XamarinSDC
             {
                 items = await GetApps(1);
             }
-            else if (menu == "Xamarin Essentials Samples")
+            else if (menu == "SkiaSharp Sample")
             {
                 items = await GetApps(2);
             }
@@ -95,11 +95,76 @@ namespace XamarinSDC
         {
             new AppInfo
             {
+                Title = "FlexLayoutDemo",
+                OriginalTitle = "FlexLayout Demo",
+                PosterPath = "FlexLayoutDemo_0.png",
+                Id = 11,
+                Overview ="This program demonstrates the FlexLayout introduced in Xamarin.Forms 3.0, and allows experimentating with it. by Charles Petzold"
+            },
+            new AppInfo
+            {
+                Title = "VSMDemo",
+                OriginalTitle = "Visual State Manager Demo",
+                PosterPath = "VsmDemos_0.png",
+                Id = 12,
+                Overview = "This program demonstrates features of the Visual State Manager (VSM) introduced in Xamarin.Forms 3.0. by Charles Petzold"
+            },
+            new AppInfo
+            {
+                Title = "MapPage",
+                OriginalTitle = "Map Page",
+                IconPath = "MapPage_0.png",
+                PosterPath = "MapPage_0.png",
+                Id = 16,
+                Overview = "This sample relates to the Working with Maps in Xamarin.Forms doc. by Craig Dunn"
+            },
+            new AppInfo
+            {
+                Title = "ChildAnimation",
+                OriginalTitle = "Child Animation",
+                PosterPath = "AnimationDemo_4.png",
+                Id = 14,
+                Overview  ="The Animation class is the building block of all Xamarin.Forms animations, with the extension methods in the ViewExtensions class creating one or more Animation objects. This sample demonstrates how to use the Animation class to create and cancel animations, synchronize multiple animations, and create custom animations that animate properties that aren't animated by the existing animation methods. by Charles Petzold"
+            },
+            new AppInfo
+            {
+                Title = "BoxViewClock",
+                OriginalTitle = "BoxView Clock",
+                PosterPath = "BoxViewClock_0.png",
+                Id = 13,
+                Overview ="A classic analog clock realized entirely with BoxView. Although Xamarin.Forms doesn't have a vector graphics programming interface, it does have a BoxView. Although normally used for displaying rectangular blocks of color, BoxView can be sized, positioned, and rotated. This is enough to render a classic analog clock. by Charles Petzold"
+            },
+            new AppInfo
+            {
+                Title = "RelativeScaleAnimation",
+                OriginalTitle = "Relative Scale Animation",
+                PosterPath = "RelativeScaleAnimation_0.png",
+                Id = 15,
+                Overview = "The ViewExtensions class provides extension methods that can be used to construct simple animations. This sample demonstrates creating and canceling animations using the ViewExtensions class. by David Britch"
+            },
+            new AppInfo
+            {
+                Title = "UnevenRowsPage",
+                OriginalTitle = "Working With ListView",
+                PosterPath = "WorkingWithListView_0.png",
+                Id = 17,
+                Overview ="These samples relate to the Working with ListView in Xamarin.Forms doc.Many people have questions about specific ListView features, this sample attempts to cover some of them: De-selecting the row after tapping, Uneven row heights, Adding clickable buttons to cells that work on Android by Craig Dunn"
+            },
+            // TitleView 예재 추가 필요
+            new AppInfo
+            {
+                Title = "BitmapRotatorPage",
+                OriginalTitle = "Working With ListView",
+                PosterPath = "WorkingWithListView_0.png",
+                Id = 25,
+            },
+            new AppInfo
+            {
                 Title = "SkiaSharp Form Demo",
                 IconPath = "SkiaSharpFormDemo_2.png",
                 PosterPath = "SkiaSharpFormDemo_0.png",
                 Identifier = "SkiaSharpFormDemo",
-                Id = 16,
+                Id = 25,
                 AppId = "org.tizen.example.WorkingWithListView.Tizen",
                 Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
             },
@@ -109,88 +174,8 @@ namespace XamarinSDC
                 IconPath = "SpinPaintDemo_1.png",
                 PosterPath = "SpinPaintDemo_1.png",
                 Identifier = "SpinPaintDemo",
-                Id = 17,
+                Id = 22,
                 AppId = "org.tizen.example.SpinPaint.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
-            },
-            new AppInfo
-            {
-                Title = "XAML Sample",
-                IconPath = "XamlSample_1.png",
-                PosterPath = "XamlSample_0.png",
-                Identifier = "XamlSample",
-                Id = 18,
-                AppId = "org.tizen.example.XamlSamples.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
-            },
-            new AppInfo
-            {
-                Title = "BoxView Clock",
-                IconPath = "BoxViewClock_2.png",
-                PosterPath = "BoxViewClock_0.png",
-                Identifier = "BoxViewClock",
-                Id = 10,
-                AppId = "org.tizen.example.BoxViewClock.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
-            },
-            new AppInfo
-            {
-                Title = "FlexLayout Demo",
-                IconPath = "FlexLayoutDemo_1.png",
-                PosterPath = "FlexLayoutDemo_0.png",
-                Identifier = "FlexLayoutDemo",
-                Id = 15,
-                AppId = "org.tizen.example.FlexLayoutDemo.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
-            },
-            new AppInfo
-            {
-                Title = "Basic Animation",
-                IconPath = "BasicAnimation_1.png",
-                PosterPath = "BasicAnimation_0.png",
-                Identifier = "BasicAnimation",
-                Id = 11,
-                AppId = "org.tizen.example.BasicAnimation.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
-            },
-            new AppInfo
-            {
-                Title = "ResponsiveLayout",
-                IconPath = "ResponsiveLayout_1.png",
-                PosterPath = "ResponsiveLayout_0.png",
-                Identifier = "ResponsiveLayout",
-                Id = 12,
-                AppId = "org.tizen.example.ResponsiveLayout.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
-            },
-            new AppInfo
-            {
-                Title = "Visual State Manager Demo",
-                IconPath = "VsmDemos_1.png",
-                PosterPath = "VsmDemos_0.png",
-                Identifier = "VsmDemos",
-                Id = 13,
-                AppId = "org.tizen.example.VsmDemos.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
-            },
-            new AppInfo
-            {
-                Title = "Animation Demo",
-                IconPath = "AnimationDemo_1.png",
-                PosterPath = "AnimationDemo_0.png",
-                Identifier = "AnimationDemo",
-                Id = 14,
-                AppId = "org.tizen.example.AnimationDemo.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
-            },
-            new AppInfo
-            {
-                Title = "Working with ListView",
-                IconPath = "WorkingWithListView_1.png",
-                PosterPath = "WorkingWithListView_1.png",
-                Identifier = "WorkingWithListView",
-                Id = 19,
-                AppId = "org.tizen.example.WorkingWithListView.Tizen",
                 Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
             },
             new AppInfo

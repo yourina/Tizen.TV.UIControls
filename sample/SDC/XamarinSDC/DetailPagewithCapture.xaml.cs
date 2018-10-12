@@ -9,20 +9,16 @@ using TMDbLib.Objects.Search;
 using TMDbLib.Objects.Movies;
 using Tizen.Applications;
 using Tizen;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-
 
 namespace XamarinSDC
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DetailPage : ContentPage
+    public partial class DetailPageWithCapture : ContentPage
     {
         AppInfo _movie;
         MovieListModel _similars;
 
-        public DetailPage(int id)
+        public DetailPageWithCapture(int id)
         {
             InitializeComponent();
 
@@ -31,7 +27,7 @@ namespace XamarinSDC
             Task.Run(async () =>
             {
                 AppInfo movie = await AppService.GetAppInfoAsync(id);
-                //var taskSimilar = await AppService.GetScreenCaptureListAsync(id, movie.Identifier);
+                var taskSimilar = await AppService.GetScreenCaptureListAsync(id, movie.Identifier);
                 Log.Debug("Demo", id + " "+movie.Identifier);
 
                 Device.BeginInvokeOnMainThread(async () =>
@@ -40,12 +36,12 @@ namespace XamarinSDC
                     _movie = movie;
                     BindingContext = movie;
 
-                    //_similars = new MovieListModel
-                    //{
-                    //    Title = "Screen Captures",
-                    //    Items = taskSimilar,
-                    //};
-                    //SimilarList.BindingContext = _similars;
+                    _similars = new MovieListModel
+                    {
+                        Title = "Screen Captures",
+                        Items = taskSimilar,
+                    };
+                    SimilarList.BindingContext = _similars;
 
                     var button = new Button
                     {
@@ -53,21 +49,12 @@ namespace XamarinSDC
                         HorizontalOptions = LayoutOptions.Center,
                         VerticalOptions = LayoutOptions.CenterAndExpand
                     };
-                    button.Clicked += async (s, e) =>
+                    button.Clicked += (s, e) =>
                     {
-                        var StartClassType = GetType().GetTypeInfo();
-                        Assembly asm = StartClassType.Assembly;
-
-                        IEnumerable<Type> _tcs = from tc in asm.DefinedTypes
-                               where  tc.Name == movie.Title
-                                    select tc.AsType();
-
-                        foreach (Type type in _tcs) {
-
-                            Page page = (Page)Activator.CreateInstance(type);
-                            page.Title = movie.OriginalTitle;
-                            await Navigation.PushAsync(page);
-                        }
+                        AppControl appControl = new AppControl();
+                        appControl.ApplicationId = movie.AppId;
+                        appControl.Operation = AppControlOperations.Default;
+                        AppControl.SendLaunchRequest(appControl);
                     };
                     ButtonArea.Children.Add(button);
 
@@ -105,14 +92,14 @@ namespace XamarinSDC
             //    }
             //}, RemoteControlKeyTypes.KeyDown));
 
-            //InputEvents.GetEventHandlers(SimilarList).Add(new RemoteKeyHandler(async (evt) =>
-            //{
-            //    if (evt.KeyName == RemoteControlKeyNames.Up)
-            //    {
-            //        //await ScrollView.ScrollToAsync(CastList, ScrollToPosition.Center, true);
-            //        //CastList.Focus();
-            //    }
-            //}, RemoteControlKeyTypes.KeyDown));
+            InputEvents.GetEventHandlers(SimilarList).Add(new RemoteKeyHandler(async (evt) =>
+            {
+                if (evt.KeyName == RemoteControlKeyNames.Up)
+                {
+                    //await ScrollView.ScrollToAsync(CastList, ScrollToPosition.Center, true);
+                    //CastList.Focus();
+                }
+            }, RemoteControlKeyTypes.KeyDown));
         }
     }
 }

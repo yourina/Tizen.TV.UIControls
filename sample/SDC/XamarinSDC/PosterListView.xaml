@@ -22,7 +22,7 @@
                             <StackLayout Padding="0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Orientation="Vertical">
                                 <StackLayout VerticalOptions="FillAndExpand"/>
                                 <StackLayout Padding="30" HorizontalOptions="FillAndExpand" BackgroundColor="#aa000000">
-                                    <Label Text="{Binding Title}" TextColor="#e0e0e0" FontSize="70" FontAttributes="Bold" />
+                                    <Label Text="{Binding OriginalTitle}" TextColor="#e0e0e0" FontSize="70" FontAttributes="Bold" />
                                 </StackLayout>
                             </StackLayout>
                         </AbsoluteLayout>
