@@ -4,18 +4,27 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Media\baboon.png" />
+    <None Remove="Media\baby_tux.webp" />
+    <None Remove="Media\nine-patch.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Media\baboon.png" />
+    <EmbeddedResource Include="Media\baby_tux.webp" />
+    <EmbeddedResource Include="Media\nine-patch.png" />
+  </ItemGroup>
+
   <!-- Include Nuget Package for Xamarin building -->
   <ItemGroup>
-    <PackageReference Include="HarfBuzzSharp" Version="1.4.6.1" />
     <PackageReference Include="SkiaSharp" Version="1.60.3" />
-    <PackageReference Include="SkiaSharp.HarfBuzz" Version="1.60.3" />
-    <PackageReference Include="SkiaSharp.Views" Version="1.60.3" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.60.3" />
     <PackageReference Include="Tizen.NET" Version="4.0.0" />
     <PackageReference Include="TMDbLib" Version="1.2.0-alpha" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.3.840" />
-    <PackageReference Include="Xamarin.Forms" Version="3.1.0.637273" />
-    <PackageReference Include="Xamarin.Forms.Maps" Version="3.1.0.637273" />
+    <PackageReference Include="Xamarin.Forms" Version="3.1.0.583944" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="3.1.0.583944" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Tizen.TV.UIControls.Forms\Tizen.TV.UIControls.Forms.csproj" />
@@ -26,6 +35,12 @@
     </Compile>
     <Compile Update="PosterListView.xaml.cs">
       <DependentUpon>PosterListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="SkiaSharpSamples\ThreeDRotation.xaml.cs">
+      <DependentUpon>ThreeDRotation.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="SkiaSharpSamples\SimpleText.xaml.cs">
+      <DependentUpon>SimpleText.xaml</DependentUpon>
     </Compile>
     <Compile Update="XamarinFormsSamples\ChildAnimation.xaml.cs">
       <DependentUpon>ChildAnimation.xaml</DependentUpon>
@@ -45,6 +60,30 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MainPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SkiaSharpSamples\BitmapLattice.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SkiaSharpSamples\PathEffects.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SkiaSharpSamples\ThreeDRotation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SkiaSharpSamples\BitmapAnnotation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SkiaSharpSamples\ColorMatrixColorFilter.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SkiaSharpSamples\FilledHeptagram.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SkiaSharpSamples\LumaColorFilter.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SkiaSharpSamples\Xfermode.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="WaitingView.xaml">

@@ -153,101 +153,134 @@ namespace XamarinSDC
             // TitleView 예재 추가 필요
             new AppInfo
             {
-                Title = "BitmapRotatorPage",
-                OriginalTitle = "Working With ListView",
-                PosterPath = "WorkingWithListView_0.png",
-                Id = 25,
+                Title = "ColorMatrixColorFilter",
+                OriginalTitle = "Color Matrix Color Filter",
+                PosterPath = "ColorMatrixColorFilter.png",
+                Id = 21,
             },
             new AppInfo
             {
-                Title = "SkiaSharp Form Demo",
-                IconPath = "SkiaSharpFormDemo_2.png",
-                PosterPath = "SkiaSharpFormDemo_0.png",
-                Identifier = "SkiaSharpFormDemo",
-                Id = 25,
-                AppId = "org.tizen.example.WorkingWithListView.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
-            },
-            new AppInfo
-            {
-                Title = "SpinPaint Demo",
-                IconPath = "SpinPaintDemo_1.png",
-                PosterPath = "SpinPaintDemo_1.png",
-                Identifier = "SpinPaintDemo",
+                Title = "LumaColorFilter",
+                OriginalTitle = "Luma Color Filter",
+                PosterPath = "LumaColorFilter.png",
                 Id = 22,
-                AppId = "org.tizen.example.SpinPaint.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
             },
             new AppInfo
             {
-                Title = "Xamarin Essential Sample",
-                IconPath = "Essential_1.png",
-                PosterPath = "Essential_1.png",
-                Identifier = "Essential",
-                Id = 20,
-                AppId = "com.xamarin.essentials",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
+                Title = "FilledHeptagram",
+                OriginalTitle = "Filled Heptagram",
+                PosterPath = "FilledHeptagram.png",
+                Id = 23,
             },
             new AppInfo
             {
-                Title = "SkiaSharp Gallery",
-                IconPath = "SkiaSharp_1.png",
-                PosterPath = "SkiaSharp_0.png",
-                Identifier = "SkiaSharp",
-                Id = 30,
-                AppId = "org.tizen.example.TizenOS",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
+                Title = "BitmapAnnotation",
+                OriginalTitle = "Bitmap Annotation",
+                PosterPath = "BitmapAnnotation.png",
+                Id = 24,
+            },
+            new AppInfo
+            {
+                Title = "BitmapLattice",
+                OriginalTitle = "Bitmap Lattice (9-patch)",
+                PosterPath = "BitmapLattice.png",
+                Id = 25,
+            },
+            new AppInfo
+            {
+                Title = "Xfermode",
+                OriginalTitle = "Blend Mode",
+                PosterPath = "Xfermode.png",
+                Id = 28,
+            },
+            new AppInfo
+            {
+                Title = "PathEffects",
+                OriginalTitle = "Path Effect",
+                PosterPath = "PathEffects.png",
+                Id = 29,
+            },
+            new AppInfo
+            {
+                Title = "ThreeDRotation",
+                OriginalTitle = "3D Rotation",
+                PosterPath = "ThreeDRotation.png",
+                Id = 26,
+            },
+            new AppInfo
+            {
+                Title = "SimpleText",
+                OriginalTitle = "Simple Text",
+                PosterPath = "SimpleText.png",
+                Id = 27,
             },
             new AppInfo
             {
                 Title = "MicroChart",
-                IconPath = "MicroChart_2.png",
                 PosterPath = "MicroChart_2.png",
-                Identifier = "MicroChart",
+                OriginalTitle = "MicroChart",
                 Id = 31,
                 AppId = "org.tizen.example.Microchart.Samples.Forms.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
             },
             new AppInfo
             {
                 Title = "FFImageLoading Sample",
-                IconPath = "FFImageLoading_1.png",
                 PosterPath = "FFImageLoading_0.png",
-                Identifier = "FFImageLoading",
+                OriginalTitle = "FFImageLoading",
                 Id = 32,
                 AppId = "simple.TizenForms.Sample",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
             },
 
             new AppInfo
             {
                 Title = "Xamanimation",
-                IconPath = "Xamarin_1.png",
                 PosterPath = "Xamarin_1.png",
-                Identifier = "Xamarin",
+                OriginalTitle = "Xamanimation",
                 Id = 33,
                 AppId = "org.tizen.example.Xamanimation.Sample.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
             },
             new AppInfo
             {
                 Title = "CarouselView",
-                IconPath = "CarouselView_0.png",
                 PosterPath = "CarouselView_0.png",
-                Identifier = "CarouselView",
+                OriginalTitle = "CarouselView",
                 Id = 34,
                 AppId = "CarouselView.Demo.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
             },
             new AppInfo
             {
-                Title = "TV.UIControls",
-                IconPath = "TVUI_round_1.png",
+                Title = "TestEmbeddingControlOnPage",
+                OriginalTitle = "Embedding Control On Page",
                 PosterPath = "TVUI_round_1.png",
-                Identifier = "TVUI_round",
                 Id = 40,
-                AppId = "org.tizen.example.Sample.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
+            },
+            new AppInfo
+            {
+                Title = "SimplePlayerPage",
+                OriginalTitle = "Simple Player",
+                PosterPath = "TVUI_round_1.png",
+                Id = 41,
+            },
+            new AppInfo
+            {
+                Title = "TestOverlayPage",
+                OriginalTitle = "Overlay Page",
+                PosterPath = "TVUI_round_1.png",
+                Id = 42,
+            },
+            new AppInfo
+            {
+                Title = "CustomFocus",
+                OriginalTitle ="RecycleItemView Custome Focus Test",
+                PosterPath = "TVUI_round_1.png",
+                Id = 43,
+            },
+            new AppInfo
+            {
+                Title = "HeaderTest",
+                OriginalTitle ="RecycleItemView Header Test",
+                PosterPath = "TVUI_round_1.png",
+                Id = 44,
             },
             new AppInfo
             {
