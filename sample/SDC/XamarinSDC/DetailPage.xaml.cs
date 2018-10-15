@@ -49,7 +49,7 @@ namespace XamarinSDC
 
                     var button = new Button
                     {
-                        Text = "Launch Application",
+                        Text = "Show Demo",
                         HorizontalOptions = LayoutOptions.Center,
                         VerticalOptions = LayoutOptions.CenterAndExpand
                     };

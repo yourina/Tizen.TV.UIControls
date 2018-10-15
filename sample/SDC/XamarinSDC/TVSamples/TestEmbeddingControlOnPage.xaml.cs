@@ -33,7 +33,8 @@ namespace XamarinSDC
 		{
 			InitializeComponent ();
             Btn.Clicked += OnClick;
-		}
+            Player.Source = MediaSource.FromFile("tvcm.mp4");
+        }
 
         void OnClick(object sender, EventArgs e)
         {
