@@ -13,7 +13,7 @@ namespace XamarinSDC
 			var listView = new ListView ();
 
 			listView.HasUnevenRows = true;
-            listView.BackgroundColor = Color.Pink;
+            listView.BackgroundColor = Color.Blue;
 
             // http://en.wikipedia.org/wiki/To_be,_or_not_to_be
             listView.ItemsSource = new [] { 

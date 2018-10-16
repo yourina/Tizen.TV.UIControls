@@ -10,7 +10,7 @@
 
     <AbsoluteLayout x:Name="absoluteLayout"
                     SizeChanged="OnAbsoluteLayoutSizeChanged"
-                    BackgroundColor="LightGreen">
+                    BackgroundColor="LightBlue">
 
         <BoxView x:Name="hourHand"
                  Color="Black" />

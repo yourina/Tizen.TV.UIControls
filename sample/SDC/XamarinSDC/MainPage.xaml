@@ -23,7 +23,7 @@
                          BackgroundColor="#248BD1"
                          VerticalOptions="FillAndExpand"
                          Opacity="0.9">
-                        <Image WidthRequest="250" VerticalOptions="CenterAndExpand" Source="Tizen_NET_round.png"/>
+                        <Image HorizontalOptions="EndAndExpand" VerticalOptions="FillAndExpand" Source="Tizen_NET_square.png" Aspect="AspectFit"/>
                         <local:MenuItemsView x:Name="MenuList" ItemsSource="{Binding MenuItems}"
                                          VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
                                          Orientation="Vertical"

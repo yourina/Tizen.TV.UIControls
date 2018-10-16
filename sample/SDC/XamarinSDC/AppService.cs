@@ -185,6 +185,7 @@ namespace XamarinSDC
                 OriginalTitle = "Bitmap Lattice (9-patch)",
                 PosterPath = "BitmapLattice.png",
                 Id = 25,
+                Overview = "DrawBitmapNinePatch is method to draws the bitmap, stretched or shrunk differentially to fit into the destination rectangle",
             },
             new AppInfo
             {
@@ -200,13 +201,13 @@ namespace XamarinSDC
                 PosterPath = "PathEffects.png",
                 Id = 29,
             },
-            new AppInfo
-            {
-                Title = "ThreeDRotation",
-                OriginalTitle = "3D Rotation",
-                PosterPath = "ThreeDRotation.png",
-                Id = 26,
-            },
+            //new AppInfo
+            //{
+            //    Title = "ThreeDRotation",
+            //    OriginalTitle = "3D Rotation",
+            //    PosterPath = "ThreeDRotation.png",
+            //    Id = 26,
+            //},
             new AppInfo
             {
                 Title = "SimpleText",
@@ -221,6 +222,7 @@ namespace XamarinSDC
                 OriginalTitle = "MicroChart",
                 Id = 31,
                 AppId = "org.tizen.example.Microchart.Samples.Forms.Tizen",
+                Overview ="Microcharts is an extremely simple charting library for a wide range of platforms (see Compatibility section below), with shared code and rendering for all of them."
             },
             new AppInfo
             {
@@ -229,6 +231,7 @@ namespace XamarinSDC
                 OriginalTitle = "FFImageLoading",
                 Id = 32,
                 AppId = "simple.TizenForms.Sample",
+                Overview = "Library to load images quickly & easily on Xamarin.iOS, Xamarin.Android, Xamarin.Forms, Xamarin.Mac / Xamarin.Tizen and Windows (UWP, WinRT). Authors: Daniel Luberda, Fabien Molinet. If you would like to help maintaining the project, just let us know!"
             },
 
             new AppInfo
@@ -238,6 +241,7 @@ namespace XamarinSDC
                 OriginalTitle = "Xamanimation",
                 Id = 33,
                 AppId = "org.tizen.example.Xamanimation.Sample.Tizen",
+                Overview = "Xamanimation is a portable library designed for Xamarin.Forms that aims to facilitate the use of animations to developers. Very simple use from C# and XAML code."
             },
             new AppInfo
             {
@@ -246,61 +250,74 @@ namespace XamarinSDC
                 OriginalTitle = "CarouselView",
                 Id = 34,
                 AppId = "CarouselView.Demo.Tizen",
+                Overview = "CarouselView control for Xamarin Forms. Available on NuGet: https://www.nuget.org/packages/CarouselView.FormsPlugin/ NuGet. Install in your PCL/.Net Standard 2.0 and client projects.",
             },
             new AppInfo
             {
                 Title = "TestEmbeddingControlOnPage",
                 OriginalTitle = "Embedding Control On Page",
-                PosterPath = "TVUI_round_1.png",
+                PosterPath = "TestEmbeddingControlOnPage.png",
+                Overview = "MediaPlayer provieds the essential components to play the media contents.",
                 Id = 40,
             },
             new AppInfo
             {
                 Title = "SimplePlayerPage",
                 OriginalTitle = "Simple Player",
-                PosterPath = "TVUI_round_1.png",
+                PosterPath = "SimplePlayerPage.png",
+                Overview = "MediaPlayer provieds the essential components to play the media contents.",
                 Id = 41,
-            },
-            new AppInfo
-            {
-                Title = "TestOverlayPage",
-                OriginalTitle = "Overlay Page",
-                PosterPath = "TVUI_round_1.png",
-                Id = 42,
             },
             new AppInfo
             {
                 Title = "CustomFocus",
                 OriginalTitle ="RecycleItemView Custome Focus Test",
-                PosterPath = "TVUI_round_1.png",
+                PosterPath = "CustomFocus.png",
+                Overview = "RecycleItemView is a ScrollView that efficiently displays a collections of data using DataTemplate.",
                 Id = 43,
             },
             new AppInfo
             {
                 Title = "HeaderTest",
                 OriginalTitle ="RecycleItemView Header Test",
-                PosterPath = "TVUI_round_1.png",
+                PosterPath = "HeaderTest.png",
+                Overview = "RecycleItemView is a ScrollView that efficiently displays a collections of data using DataTemplate.",
                 Id = 44,
+            },
+            new AppInfo
+            {
+                Title = "DrawerBasicTest",
+                OriginalTitle ="DrawerLayout Basic Test",
+                PosterPath = "DrawerBasicTest.png",
+                Overview = "DrawerLayout is a kind of Layout that acts like a MasterDetailPage.",
+                Id = 45,
+            },
+            new AppInfo
+            {
+                Title = "RightDrawerTest",
+                OriginalTitle ="Right DrawerLayout Test",
+                PosterPath = "RightDrawerTest.png",
+                Overview = "DrawerLayout is a kind of Layout that acts like a MasterDetailPage.",
+                Id = 46,
             },
             new AppInfo
             {
                 Title = "TMDb",
                 IconPath = "TMDb_0.png",
                 PosterPath = "TMDb_1.png",
-                Identifier = "TMDb",
+                OriginalTitle = "TMDb",
                 Id = 50,
                 AppId = "org.tizen.sample.TMDb",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
+                Overview = "The Movie Database (TMDb) is a community built movie and TV database. Every piece of data has been added by our amazing community dating back to 2008. TMDb's strong international focus and breadth of data is largely unmatched and something we're incredibly proud of."
             },
             new AppInfo
             {
                 Title = "SmartHotel 360",
-                IconPath = "SmartHotel_0.png",
                 PosterPath = "SmartHotel_0.png",
-                Identifier = "SmartHotel",
+                OriginalTitle = "SmartHotel 360",
                 Id = 51,
                 AppId = "org.tizen.example.SmartHotel.Clients.Tizen",
-                Overview = "Tizen TV UIControls The Tizen TV UIControls is a set of helpful extensions to the Xamarin Forms framework for the Samsung TV device.The binaries are available via NuGet(package name is Tizen.TV.UIControls) with the source available here."
+                Overview = "During our Connect(); 2017 event this year we presented beautiful app demos using Xamarin. We are happy to announce the release of SmartHotel360. This release intends to share a simplified version of SmartHotel360 reference sample apps used at Connect(); 2017 Keynotes.If you missed it, you can watch Scott Guthrie’s Keynote."
             }
         };
 
