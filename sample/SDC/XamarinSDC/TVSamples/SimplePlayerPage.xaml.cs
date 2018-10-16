@@ -28,7 +28,7 @@ namespace XamarinSDC
 		public SimplePlayerPage ()
 		{
 			InitializeComponent ();
-            Player.Source = MediaSource.FromFile("gearsport.mp4");
+            Player.Source = MediaSource.FromFile("tvcm.mp4");
         }
 
         void OnClickPlay(object sender, ClickedEventArgs e)

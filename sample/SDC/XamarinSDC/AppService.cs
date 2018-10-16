@@ -310,7 +310,6 @@ namespace XamarinSDC
             new AppInfo
             {
                 Title = "TMDb",
-                IconPath = "TMDb_0.png",
                 PosterPath = "TMDb_1.png",
                 OriginalTitle = "TMDb",
                 Id = 50,
