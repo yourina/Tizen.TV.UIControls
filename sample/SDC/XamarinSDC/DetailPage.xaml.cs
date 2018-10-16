@@ -55,18 +55,29 @@ namespace XamarinSDC
                     };
                     button.Clicked += async (s, e) =>
                     {
-                        var StartClassType = GetType().GetTypeInfo();
-                        Assembly asm = StartClassType.Assembly;
+                        if ((movie.Id % 10 == 3) || (movie.Id % 10 == 5))
+                        {
+                            AppControl appControl = new AppControl();
+                            appControl.ApplicationId = movie.AppId;
+                            appControl.Operation = AppControlOperations.Default;
+                            AppControl.SendLaunchRequest(appControl);
+                        }
+                        else
+                        {
+                            var StartClassType = GetType().GetTypeInfo();
+                            Assembly asm = StartClassType.Assembly;
 
-                        IEnumerable<Type> _tcs = from tc in asm.DefinedTypes
-                               where  tc.Name == movie.Title
-                                    select tc.AsType();
+                            IEnumerable<Type> _tcs = from tc in asm.DefinedTypes
+                                                     where tc.Name == movie.Title
+                                                     select tc.AsType();
 
-                        foreach (Type type in _tcs) {
+                            foreach (Type type in _tcs)
+                            {
 
-                            Page page = (Page)Activator.CreateInstance(type);
-                            page.Title = movie.OriginalTitle;
-                            await Navigation.PushAsync(page);
+                                Page page = (Page)Activator.CreateInstance(type);
+                                page.Title = movie.OriginalTitle;
+                                await Navigation.PushAsync(page);
+                            }
                         }
                     };
                     ButtonArea.Children.Add(button);
