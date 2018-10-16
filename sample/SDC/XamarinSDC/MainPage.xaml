@@ -21,13 +21,12 @@
                     <StackLayout x:Name="MenuPanel"
                          WidthRequest="500"
                          BackgroundColor="#248BD1"
-                         VerticalOptions="FillAndExpand"
-                         Opacity="0.9">
-                        <Image HorizontalOptions="EndAndExpand" VerticalOptions="FillAndExpand" Source="Tizen_NET_square.png" Aspect="AspectFit"/>
+                         VerticalOptions="FillAndExpand">
+                        <Image Source="Tizen_NET_round.png"/>
                         <local:MenuItemsView x:Name="MenuList" ItemsSource="{Binding MenuItems}"
                                          VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
                                          Orientation="Vertical"
-                                         ItemHeight="150"
+                                         ItemHeight="140"
                                          ItemWidth="500"
                                          ItemSelected="MenuItemsView_ItemSelected">
                             <local:MenuItemsView.ItemTemplate>
@@ -35,7 +34,7 @@
                                         <StackLayout HorizontalOptions="FillAndExpand" Padding="50, 0, 40, 0" Orientation="Horizontal" Spacing="40">
                                             <Image WidthRequest="70" VerticalOptions="CenterAndExpand" Source="{Binding Icon}"/>
                                             <Label HorizontalOptions="FillAndExpand"
-                                                       VerticalOptions="FillAndExpand"
+                                                   VerticalOptions="FillAndExpand"
                                                    VerticalTextAlignment="Center"
                                                    Text="{Binding Text}" TextColor="#f0f0f0"
                                                    FontSize="70" FontAttributes="Bold"/>

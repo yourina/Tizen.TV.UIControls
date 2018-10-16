@@ -157,6 +157,7 @@ namespace XamarinSDC
                 OriginalTitle = "Color Matrix Color Filter",
                 PosterPath = "ColorMatrixColorFilter.png",
                 Id = 21,
+                Overview = "Color filters for use with the SkiaSharp.SKPaint.ColorFilter property of a SkiaSharp.SKPaint."
             },
             new AppInfo
             {
@@ -164,6 +165,7 @@ namespace XamarinSDC
                 OriginalTitle = "Luma Color Filter",
                 PosterPath = "LumaColorFilter.png",
                 Id = 22,
+                Overview = "Color filters for use with the SkiaSharp.SKPaint.ColorFilter property of a SkiaSharp.SKPaint."
             },
             new AppInfo
             {
@@ -171,12 +173,14 @@ namespace XamarinSDC
                 OriginalTitle = "Filled Heptagram",
                 PosterPath = "FilledHeptagram.png",
                 Id = 23,
+                Overview = "This example shows filled heptagram using SkiaSharp."
             },
             new AppInfo
             {
                 Title = "BitmapAnnotation",
                 OriginalTitle = "Bitmap Annotation",
                 PosterPath = "BitmapAnnotation.png",
+                Overview = "This example shows how to annotate bitmap image using SkiaSharp.",
                 Id = 24,
             },
             new AppInfo
@@ -193,6 +197,7 @@ namespace XamarinSDC
                 OriginalTitle = "Blend Mode",
                 PosterPath = "Xfermode.png",
                 Id = 28,
+                Overview = "CreateLinearGradient method creates a shader that generates a linear gradient between the two specified points"
             },
             new AppInfo
             {
@@ -200,6 +205,7 @@ namespace XamarinSDC
                 OriginalTitle = "Path Effect",
                 PosterPath = "PathEffects.png",
                 Id = 29,
+                Overview = "This example shows the path effect to use when painting."
             },
             //new AppInfo
             //{
@@ -214,6 +220,7 @@ namespace XamarinSDC
                 OriginalTitle = "Simple Text",
                 PosterPath = "SimpleText.png",
                 Id = 27,
+                Overview = "This example shows how to draw simple text using SkiaSharp."
             },
             new AppInfo
             {
