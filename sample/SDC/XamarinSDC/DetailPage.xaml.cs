@@ -48,10 +48,19 @@ namespace XamarinSDC
                     {
                         if ((movie.Id / 10 == 3) || (movie.Id / 10 == 5))
                         {
-                            AppControl appControl = new AppControl();
-                            appControl.ApplicationId = movie.AppId;
-                            appControl.Operation = AppControlOperations.Default;
-                            AppControl.SendLaunchRequest(appControl);
+                            try
+                            {
+                                AppControl appControl = new AppControl();
+                                appControl.ApplicationId = movie.AppId;
+                                appControl.Operation = AppControlOperations.Default;
+                                AppControl.SendLaunchRequest(appControl);
+                            }
+                            catch (Exception ee)
+                            {
+                                Log.Error("Demo", "Launch App " + ee+" "+ee.Message);
+
+                            }
+                            Log.Error("Demo", "Launch App "+movie.AppId);
                         }
                         else
                         {
@@ -67,6 +76,7 @@ namespace XamarinSDC
 
                                 Page page = (Page)Activator.CreateInstance(type);
                                 page.Title = movie.OriginalTitle;
+                                Log.Error("Demo", "Push page ");
                                 await Navigation.PushAsync(page);
                             }
                         }
