@@ -53,6 +53,7 @@ namespace XamarinSDC
                                 AppControl appControl = new AppControl();
                                 appControl.ApplicationId = movie.AppId;
                                 appControl.Operation = AppControlOperations.Default;
+                                appControl.ExtraData.Add("key", "value");
                                 AppControl.SendLaunchRequest(appControl);
                             }
                             catch (Exception ee)
