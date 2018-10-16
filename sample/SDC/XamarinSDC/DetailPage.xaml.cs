@@ -31,21 +31,12 @@ namespace XamarinSDC
             Task.Run(async () =>
             {
                 AppInfo movie = await AppService.GetAppInfoAsync(id);
-                //var taskSimilar = await AppService.GetScreenCaptureListAsync(id, movie.Identifier);
-                Log.Debug("Demo", id + " "+movie.Identifier);
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     WaitingView.Opacity = 0.0;
                     _movie = movie;
                     BindingContext = movie;
-
-                    //_similars = new MovieListModel
-                    //{
-                    //    Title = "Screen Captures",
-                    //    Items = taskSimilar,
-                    //};
-                    //SimilarList.BindingContext = _similars;
 
                     var button = new Button
                     {
@@ -55,7 +46,7 @@ namespace XamarinSDC
                     };
                     button.Clicked += async (s, e) =>
                     {
-                        if ((movie.Id % 10 == 3) || (movie.Id % 10 == 5))
+                        if ((movie.Id / 10 == 3) || (movie.Id / 10 == 5))
                         {
                             AppControl appControl = new AppControl();
                             appControl.ApplicationId = movie.AppId;
