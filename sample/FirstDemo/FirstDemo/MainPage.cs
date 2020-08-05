@@ -135,7 +135,8 @@ namespace FirstDemo
                 var stLayout = new StackLayout()
                 {
                     BackgroundColor = new Color(0.1, 0.1, 0.1, 0.7),
-                    Children = { hlabel, tlabel }
+                    Children = { hlabel, tlabel },
+                    IsVisible = false
                 };
 
                 layout.Children.Add(stLayout,
@@ -159,7 +160,7 @@ namespace FirstDemo
             detailGrid2.ItemsSource = files3;
             detailGrid2.ItemTemplate = dataTemplage;
             //detailGrid2.ItemFocusedTemplate = dataFocusedTemplage;
-
+            detailGrid2.ItemFocused += OnItemFocused;
 
             AbsoluteLayout.SetLayoutBounds(detailGrid2, new Rectangle(0, 20, 1920, 600));
             AbsoluteLayout.SetLayoutFlags(detailGrid2, AbsoluteLayoutFlags.None);
@@ -167,6 +168,19 @@ namespace FirstDemo
             top2.Children.Add(label2);
             top2.Children.Add(detailGrid2);
             top2.IsVisible = false;
+        }
+
+        void OnItemFocused(object sender, GridViewItemFocusedEventArgs e)
+        {
+            View target = e.TargetView;
+
+            Tizen.Log.Error("XSF","Enter "+target);
+            //RelativeLayout layout = target as RelativeLayout;
+            //StackLayout stLayout = layout.Children[1] as StackLayout;
+            //stLayout.IsVisible = true;
+
+
+
         }
 
         void CreateDetailLayout3()

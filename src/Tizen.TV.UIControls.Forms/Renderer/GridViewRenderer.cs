@@ -154,6 +154,8 @@ namespace Tizen.TV.UIControls.Forms.Renderer
                 };
 
                 gengrid.ItemSelected += OnItemSelected;
+                gengrid.ItemFocused += OnItemFocused;
+                gengrid.ItemUnfocused += OnItemUnfocused;
 
 
                 foreach (var item in Element.ItemsSource)
@@ -201,6 +203,17 @@ namespace Tizen.TV.UIControls.Forms.Renderer
                 SetNativeControl(gengrid);
             }
             base.OnElementChanged(e);
+        }
+
+        private void OnItemUnfocused(object sender, GenGridItemEventArgs e)
+        {
+
+        }
+
+        private void OnItemFocused(object sender, GenGridItemEventArgs e)
+        {
+            GengridItemContext context = e.Item.Data as GengridItemContext;
+            Element.SendItemFocused(new GridViewItemFocusedEventArgs(context.Data, context.RealizedView, true));
         }
 
         View CreateContent(DataTemplate template, Object data)

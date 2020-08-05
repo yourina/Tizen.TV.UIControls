@@ -46,6 +46,8 @@ namespace Tizen.TV.UIControls.Forms
 
         public event EventHandler<GridViewSelectedItemChangedEventArgs> SelectedItemChanged;
 
+        public event EventHandler<GridViewItemFocusedEventArgs> ItemFocused;
+
         public GridView()
         {
         }
@@ -168,6 +170,10 @@ namespace Tizen.TV.UIControls.Forms
             return null;// CreateContent(new TextCell { Text = data.ToString() });
         }
 
+        public void SendItemFocused(GridViewItemFocusedEventArgs args)
+        {
+            ItemFocused?.Invoke(this, args);
+        }
        
     }
 }
