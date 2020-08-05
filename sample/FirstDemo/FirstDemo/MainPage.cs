@@ -116,9 +116,25 @@ namespace FirstDemo
 
             var dataTemplage = new DataTemplate(() =>
             {
+                var layout = new RelativeLayout();
+
                 var image = new Image();
                 image.SetBinding(Image.SourceProperty, "Source");
-                return new ViewCell { View = image };
+
+                layout.Children.Add(image, 
+                    widthConstraint: Constraint.RelativeToParent(parent => parent.Width),
+                    heightConstraint: Constraint.RelativeToParent(parent => parent.Height));
+
+                var label = new Label();
+                label.Text = "Attack of the 50 Foot Woman";
+                label.BackgroundColor = new Color(0.1, 0.1, 0.1, 0.7);
+
+                layout.Children.Add(label, 
+                    widthConstraint: Constraint.RelativeToParent(parent => parent.Width),
+                    heightConstraint: Constraint.RelativeToParent(parent => parent.Height * 0.7),
+                    yConstraint: Constraint.RelativeToParent(parent => parent.Height * 0.3));
+
+                return new ViewCell { View = layout };
             });
 
             var detailGrid2 = new GridView()
