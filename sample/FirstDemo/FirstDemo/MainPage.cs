@@ -6,6 +6,7 @@ using Tizen.TV.UIControls.Forms;
 using Xamarin.Forms.Internals;
 using Tizen;
 using System.Runtime.CompilerServices;
+//using ElmSharp;
 
 namespace FirstDemo
 {
@@ -121,21 +122,32 @@ namespace FirstDemo
                 var image = new Image();
                 image.SetBinding(Image.SourceProperty, "Source");
 
-                layout.Children.Add(image, 
+                layout.Children.Add(image,
                     widthConstraint: Constraint.RelativeToParent(parent => parent.Width),
                     heightConstraint: Constraint.RelativeToParent(parent => parent.Height));
 
-                var label = new Label();
-                label.Text = "Attack of the 50 Foot Woman";
-                label.BackgroundColor = new Color(0.1, 0.1, 0.1, 0.7);
+                var hlabel = new Label();
+                hlabel.Text = "Attack of the 50 Foot Woman";
 
-                layout.Children.Add(label, 
+                var tlabel = new Label();
+                tlabel.Text = "Attack of the 50 Foot Woman is a 1958 independently made American black-and-white science fiction film directed by Nathan H. Juran (credited as Nathan Hertz) and starring Allison";
+
+                var stLayout = new StackLayout()
+                {
+                    BackgroundColor = new Color(0.1, 0.1, 0.1, 0.7),
+                    Children = { hlabel, tlabel }
+                };
+
+                layout.Children.Add(stLayout,
                     widthConstraint: Constraint.RelativeToParent(parent => parent.Width),
                     heightConstraint: Constraint.RelativeToParent(parent => parent.Height * 0.7),
                     yConstraint: Constraint.RelativeToParent(parent => parent.Height * 0.3));
 
                 return new ViewCell { View = layout };
             });
+
+
+
 
             var detailGrid2 = new GridView()
             {
@@ -146,6 +158,9 @@ namespace FirstDemo
             };
             detailGrid2.ItemsSource = files3;
             detailGrid2.ItemTemplate = dataTemplage;
+            //detailGrid2.ItemFocusedTemplate = dataFocusedTemplage;
+
+
             AbsoluteLayout.SetLayoutBounds(detailGrid2, new Rectangle(0, 20, 1920, 600));
             AbsoluteLayout.SetLayoutFlags(detailGrid2, AbsoluteLayoutFlags.None);
 
