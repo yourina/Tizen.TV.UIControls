@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Tizen.NET" Version="6.0.0.15105" />
+    <PackageReference Include="Tizen.NET" Version="6.0.0.15089" />
     <ProjectReference Include="..\..\src\Tizen.TV.UIControls.Forms\Tizen.TV.UIControls.Forms.csproj" />
     <ProjectReference Include="..\Sample\Sample.csproj" />
   </ItemGroup>
