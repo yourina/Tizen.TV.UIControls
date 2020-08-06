@@ -46,7 +46,7 @@
                 </tv:DrawerLayout.Drawer>
                 <tv:DrawerLayout.Content>
                     <ContentView x:Name="ContentHolder" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                        <local:PosterListView x:Name="PosterView" ItemHeight="600" ItemWidth="450"></local:PosterListView>
+                        <local:PosterListView x:Name="PosterView" ItemHeight="1080" ItemWidth="450"></local:PosterListView>
                     </ContentView>
                 </tv:DrawerLayout.Content>
             </tv:DrawerLayout>

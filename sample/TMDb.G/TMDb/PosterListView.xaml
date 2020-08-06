@@ -11,12 +11,16 @@
         </ResourceDictionary>
   </ContentView.Resources>
   <ContentView.Content>
-        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-            <Label Margin="30,0,0,0" FontSize="90" TextColor="#e0e0e0" Text="{Binding Title}" FontAttributes="Bold"/>
-            <tv:RecycleItemsView x:Name="ItemsView" ContentMargin="100, 50, 100, 50" Spacing="60"
-                                 ItemsSource="{Binding Items}"
-                                 ItemSelected="RecycleItemsView_ItemSelected">
-                <tv:RecycleItemsView.ItemTemplate>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+            <Label Margin="30,130,0,0" FontSize="90" TextColor="#e0e0e0" Text="{Binding Title}" FontAttributes="Bold"/>
+            <tv:GridView x:Name="ItemsView" 
+                         ItemsSource="{Binding Items}"
+                         WidthRequest="700"
+                         HeightRequest="900"
+                         ItemWidth="460"
+                         ItemHeight="690"
+                         >
+                <tv:GridView.ItemTemplate>
                     <DataTemplate>
                         <AbsoluteLayout>
                             <ff:CachedImage LoadingPlaceholder="GitHub-Mark.png" Source="{Binding PosterPath, Converter={StaticResource posterConverter}}" Aspect="Fill" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"/>
@@ -29,8 +33,8 @@
                             </StackLayout>
                         </AbsoluteLayout>
                     </DataTemplate>
-                </tv:RecycleItemsView.ItemTemplate>
-            </tv:RecycleItemsView>
+                </tv:GridView.ItemTemplate>
+            </tv:GridView>
         </StackLayout>
     </ContentView.Content>
 </ContentView>

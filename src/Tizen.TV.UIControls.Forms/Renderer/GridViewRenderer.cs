@@ -38,6 +38,7 @@ namespace Tizen.TV.UIControls.Forms.Renderer
     public class GridViewRenderer : ViewRenderer<GridView, ElmSharp.GenGrid>
     {
         IList<GengridItemContext> itemContexts = new List<GengridItemContext>();
+        ElmSharp.GenGrid _genGrid = null;
 
         ElmSharp.GenItemClass gridItemClass = new ElmSharp.GenItemClass("default")
         {
@@ -141,7 +142,8 @@ namespace Tizen.TV.UIControls.Forms.Renderer
         {
             if (Control == null)
             {
-                var gengrid = new ElmSharp.GenGrid(Xamarin.Forms.Forms.NativeParent)
+                Log.Error("XSF", "Enter");
+                _genGrid = new ElmSharp.GenGrid(Xamarin.Forms.Forms.NativeParent)
                 {
                     HorizontalScrollBarVisiblePolicy = ElmSharp.ScrollBarVisiblePolicy.Invisible,
                     VerticalScrollBarVisiblePolicy = ElmSharp.ScrollBarVisiblePolicy.Invisible,
@@ -153,54 +155,25 @@ namespace Tizen.TV.UIControls.Forms.Renderer
                     Style = Element.ThemeStyle,
                 };
 
-                gengrid.ItemSelected += OnItemSelected;
-                gengrid.ItemFocused += OnItemFocused;
-                gengrid.ItemUnfocused += OnItemUnfocused;
+                _genGrid.ItemSelected += OnItemSelected;
+                _genGrid.ItemFocused += OnItemFocused;
+                _genGrid.ItemUnfocused += OnItemUnfocused;
+                
+                Log.Error("XSF", "Enter 161");
 
-
-                foreach (var item in Element.ItemsSource)
+                if (Element.ItemsSource != null)
                 {
-                    View realview = CreateContent(Element.ItemTemplate, item);
-                    realview.BindingContext = item;
-                    var context = new GengridItemContext
-                    {
-                        Data = item, 
-                        RealizedView = realview as View,
-                    };
-                    itemContexts.Add(context);
-                    var gridItem = gengrid.Append(gridItemClass, context);
-                    gridItem.IsSelected = true;
+                    Log.Error("XSF", "Enter");
+                    UpdateItemsSource();
                 }
-
-                //if (Element.ItemStyle == "poster")
-                //{
-                //    Log.Error("XSF", "" + gengrid.ItemAlignmentY);
-                //    foreach (var item in Element.ItemsSource)
-                //    {
-                //        var gridItem = gengrid.Append(posterClass, item);
-                //    }
-                //}
-                //else
-                //{
-                //    Log.Error("XSF", "" + Element._itemContexts.Count);
-                //    //foreach (var item in Element.ItemsSource)
-                //    //{
-                //    //    var gridItem = gengrid.Append(defaultClass, item);
-                //    //}
-                //    foreach (var item in Element._itemContexts)
-                //    {
-                //        Log.Error("XSF", "&&& " + Element._itemContexts.Count);
-                //        var gridItem = gengrid.Append(gridItemClass, item);
-                //    }
-                //}
-
-                if (Element.ItemsSource is INotifyCollectionChanged collection)
+                else 
                 {
-                    collection.CollectionChanged += OnCollectionChanged;
+                    Log.Error("XSF", "ItemSouce is null");
                 }
+                Log.Error("XSF", "Enter");
 
-                gengrid.Show();
-                SetNativeControl(gengrid);
+                _genGrid.Show();
+                SetNativeControl(_genGrid);
             }
             base.OnElementChanged(e);
         }
@@ -236,7 +209,6 @@ namespace Tizen.TV.UIControls.Forms.Renderer
         void OnItemSelected(object sender, GenGridItemEventArgs e)
         {
             GengridItemContext context = e.Item.Data as GengridItemContext;
-            Log.Error("XSF", "12 " + e.Item.Data);
             Element.SelectedItem = context.Data;
             Log.Error("XSF", "12 " + Element.SelectedItem);
         }
@@ -255,11 +227,37 @@ namespace Tizen.TV.UIControls.Forms.Renderer
             {
                 Control.Style = Element.ThemeStyle;
             }
+            else if (e.PropertyName == GridView.ItemsSourceProperty.PropertyName)
+            {
+                Log.Error("XSF", "Enter");
+                UpdateItemsSource();
+            }
             base.OnElementPropertyChanged(sender, e);
+        }
+
+        void UpdateItemsSource()
+        {
+            Log.Error("XSF", "Enter");
+            foreach (var item in Element.ItemsSource)
+            {
+                View realview = CreateContent(Element.ItemTemplate, item);
+                realview.BindingContext = item;
+                var context = new GengridItemContext
+                {
+                    Data = item,
+                    RealizedView = realview as View,
+                };
+                itemContexts.Add(context);
+                var gridItem = _genGrid.Append(gridItemClass, context);
+                //gridItem.IsSelected = true;
+            }
+            Log.Error("XSF", "Enter");
+
         }
 
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            Log.Error("XSF","Enter "+e.Action);
         }
 
         View CreateContent(ImageCell cell)

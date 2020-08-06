@@ -26,7 +26,7 @@ namespace Tizen.TV.UIControls.Forms
 {
     public class GridView : View
     {
-        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(GridView), null, propertyChanged: (b, o, n) => ((GridView)b).UpdateItemsSource());
+        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(GridView), null);
 
         public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(ItemsView<GridView>), null, validateValue: (b, v) => ((GridView)b).ValidateItemTemplate((DataTemplate)v));
 
@@ -127,47 +127,6 @@ namespace Tizen.TV.UIControls.Forms
         void UpdateSelectedItems()
         {
             SelectedItemChanged?.Invoke(this, new GridViewSelectedItemChangedEventArgs(SelectedItem));
-        }
-
-
-        void UpdateItemsSource()
-        {
-            // ClearItemContext();
-            Console.Error.WriteLine("XSF" ,"*************");
-
-            if (ItemsSource != null)
-            {
-                //foreach (var item in ItemsSource)
-                //{
-                //    var itemContext = new ItemContext
-                //    {
-                //        Data = item,
-                //        RealizedView = CreateContent(item),
-                //    };
-
-                //    _itemContexts.Add(itemContext);
-                //}
-
-                if (ItemsSource is INotifyCollectionChanged collection)
-                {
-                    //collection.CollectionChanged += OnCollectionChanged;
-                }
-            }
-            //LayoutInvalidate();
-        }
-
-        View CreateContent(object data)
-        {
-            if (ItemTemplate != null)
-            {
-
-                var content = ItemTemplate.CreateContent();
-                if (content is View view) return view;
-                else if (content is ViewCell viewCell) return viewCell.View;
-                //else if (content is ImageCell imageCell) return CreateContent(imageCell);
-                //else if (content is TextCell textCell) return CreateContent(textCell);
-            }
-            return null;// CreateContent(new TextCell { Text = data.ToString() });
         }
 
         public void SendItemFocused(GridViewItemFocusedEventArgs args)

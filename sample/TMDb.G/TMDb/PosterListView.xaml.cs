@@ -28,8 +28,8 @@ namespace TMDb
         public PosterListView ()
         {
             InitializeComponent();
-            ItemsView.SetBinding(RecycleItemsView.ItemHeightProperty, new Binding("ItemHeight", source: this));
-            ItemsView.SetBinding(RecycleItemsView.ItemWidthProperty, new Binding("ItemWidth", source: this));
+            //ItemsView.SetBinding(GridView.ItemHeightProperty, new Binding("ItemHeight", source: this));
+            //ItemsView.SetBinding(GridView.ItemWidthProperty, new Binding("ItemWidth", source: this));
         }
 
         public double ItemWidth
@@ -61,7 +61,7 @@ namespace TMDb
             }
         }
 
-        public Tizen.TV.UIControls.Forms.RecycleItemsView ItemContent => ItemsView;
+        public Tizen.TV.UIControls.Forms.GridView ItemContent => ItemsView;
 
         async void RecycleItemsView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
