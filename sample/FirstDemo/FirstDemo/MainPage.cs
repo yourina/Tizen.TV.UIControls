@@ -174,13 +174,26 @@ namespace FirstDemo
         {
             View target = e.TargetView;
 
-            Tizen.Log.Error("XSF","Enter "+target);
-            RelativeLayout layout = target as RelativeLayout;
-            Tizen.Log.Error("XSF", "Enter " + layout);
-            StackLayout stLayout = layout.Children[1] as StackLayout;
-            Tizen.Log.Error("XSF", "Enter " + stLayout);
-            stLayout.IsVisible = true;
-            Tizen.Log.Error("XSF", "183 Enter " + stLayout);
+            if (e.IsFocused == true)
+            {
+                Tizen.Log.Error("XSF", "Enter " + target);
+                RelativeLayout layout = target as RelativeLayout;
+                Tizen.Log.Error("XSF", "Enter " + layout);
+                StackLayout stLayout = layout.Children[1] as StackLayout;
+                Tizen.Log.Error("XSF", "Enter " + stLayout);
+                stLayout.IsVisible = true;
+                Tizen.Log.Error("XSF", "183 Enter " + stLayout);
+            }
+            else 
+            {
+                Tizen.Log.Error("XSF", "Enter " + target);
+                RelativeLayout layout = target as RelativeLayout;
+                Tizen.Log.Error("XSF", "Enter " + layout);
+                StackLayout stLayout = layout.Children[1] as StackLayout;
+                Tizen.Log.Error("XSF", "Enter " + stLayout);
+                stLayout.IsVisible = false;
+                Tizen.Log.Error("XSF", "195 Enter " + stLayout);
+            }
 
 
 

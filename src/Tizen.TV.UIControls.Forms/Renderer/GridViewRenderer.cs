@@ -207,7 +207,8 @@ namespace Tizen.TV.UIControls.Forms.Renderer
 
         private void OnItemUnfocused(object sender, GenGridItemEventArgs e)
         {
-
+            GengridItemContext context = e.Item.Data as GengridItemContext;
+            Element.SendItemFocused(new GridViewItemFocusedEventArgs(context.Data, context.RealizedView, false));
         }
 
         private void OnItemFocused(object sender, GenGridItemEventArgs e)
