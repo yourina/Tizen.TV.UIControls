@@ -3,6 +3,7 @@ using System.Globalization;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Tizen.TV.UIControls.Forms;
+using System.Collections;
 
 namespace TMDb
 {
@@ -63,7 +64,7 @@ namespace TMDb
 
         public Tizen.TV.UIControls.Forms.GridView ItemContent => ItemsView;
 
-        async void RecycleItemsView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        async  void ItemsView_SelectedItemChanged(object sender, GridViewSelectedItemChangedEventArgs e)
         {
             var movie = e.SelectedItem as TMDbLib.Objects.Search.SearchMovie;
             Backdrops = movie.BackdropPath;

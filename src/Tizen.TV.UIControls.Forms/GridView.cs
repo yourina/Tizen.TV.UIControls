@@ -16,11 +16,8 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
-using Tizen;
 
 namespace Tizen.TV.UIControls.Forms
 {
@@ -110,9 +107,18 @@ namespace Tizen.TV.UIControls.Forms
         {
             base.OnPropertyChanged(propertyName);
         }
-        protected virtual bool ValidateItemTemplate(DataTemplate template)
+        protected bool ValidateItemTemplate(DataTemplate template)
         {
-            return true;
+            if (template == null)
+                return true;
+            if (template is DataTemplateSelector)
+                return false;
+
+            object content = template.CreateContent();
+            if (content is View || content is Cell)
+                return true;
+
+            return false;
         }
 
         static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
@@ -122,7 +128,6 @@ namespace Tizen.TV.UIControls.Forms
                 return;
             element.Parent = (Element)bindable;
         }
-
 
         void UpdateSelectedItems()
         {

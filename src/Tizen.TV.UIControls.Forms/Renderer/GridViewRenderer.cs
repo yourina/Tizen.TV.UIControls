@@ -54,95 +54,16 @@ namespace Tizen.TV.UIControls.Forms.Renderer
                     {
                         (renderer as LayoutRenderer).RegisterOnLayoutUpdated();
                     }
-                    //renderer.NativeView.Show();
                     return renderer.NativeView;
                 }
                 return null;
             }
         };
 
-        ElmSharp.GenItemClass defaultClass = new ElmSharp.GenItemClass("default")
-        {
-            GetContentHandler = (obj, part) =>
-            {
-                string index = (string)obj;
-                Log.Error("XSF","Enter *** "+index );
-                if (part == "elm.swallow.icon")
-                {
-                    ElmSharp.Image image = new ElmSharp.Image(Xamarin.Forms.Forms.NativeParent)
-                    {
-                        AlignmentX = -1,
-                        AlignmentY = -1,
-                        WeightX = 1,
-                        WeightY = 1,
-                    };
-                    image.Show();
-
-                    //string path = string.Format("mi{0}.png", index % 13);
-                    image.Load(Path.Combine(@"/home/owner/apps_rw/org.FirstDemo.Tizen/res/", index));
-
-                    return image;
-
-                }
-                return null;
-            }
-        };
-        ElmSharp.GenItemClass posterClass = new ElmSharp.GenItemClass("poster")
-        {
-            GetTextHandler = (obj, part) =>
-            {
-                string[,] _textDetail = new string[5, 2] {{ "Attack of the 50 Foot Woman",
-                                                             "Attack of the 50 Foot Woman is a 1958 independently made American black-and-white science fiction film directed by Nathan H. Juran (credited as Nathan Hertz) and starring Allison Hayes, William Hudson and Yvette Vickers." },
-                                                           { "JAWS",
-                                                             "Jaws is a 1975 American thriller film directed by Steven Spielberg and based on Peter Benchley's 1974 novel of the same name." },
-                                                           { "STAR WARS",
-                                                             "Star Wars is an American epic space-opera media franchise created by George Lucas, which began with the eponymous 1977 film and quickly became a worldwide pop-culture phenomenon." },
-                                                           { "E.T. the Extra-Terrestrial",
-                                                             "E.T. the Extra-Terrestrial is a 1982 American science fiction film produced and directed by Steven Spielberg, and written by Melissa Mathison. It tells the story of Elliott, a boy who befriends an extraterrestrial, dubbed E.T., who is stranded on Earth." },
-                                                           { "JURASSIC PARK",
-                                                             "Jurassic Park is a 1993 American science fiction adventure film directed by Steven Spielberg and produced by Kathleen Kennedy and Gerald R. Molen. It is the first installment in the Jurassic Park franchise, and is based on the 1990 novel of the same name by Michael Crichton and a screenplay written by Crichton and David Koepp." } };
-
-                if (part == "elm.text.title")
-                {
-                    return _textDetail[0, 0];
-                }
-                else if (part == "elm.text")
-                {
-                    return _textDetail[0, 1];
-                }
-                return null;
-            },
-            GetContentHandler = (obj, part) =>
-            {
-                string index = (string)obj;
-                //Log.Error("XSF","Enter *** "+index );
-                if (part == "elm.swallow.icon")
-                {
-                    ElmSharp.Image image = new ElmSharp.Image(Xamarin.Forms.Forms.NativeParent)
-                    {
-                        AlignmentX = -1,
-                        AlignmentY = -1,
-                        WeightX = 1,
-                        WeightY = 1,
-                    };
-                    image.Show();
-
-                    //string path = string.Format("mi{0}.png", index % 13);
-                    image.Load(Path.Combine(@"/home/owner/apps_rw/org.FirstDemo.Tizen/res/", index));
-
-                    return image;
-
-                }
-                return null;
-            }
-        };
-
-
         protected override void OnElementChanged(ElementChangedEventArgs<GridView> e)
         {
             if (Control == null)
             {
-                Log.Error("XSF", "Enter");
                 _genGrid = new ElmSharp.GenGrid(Xamarin.Forms.Forms.NativeParent)
                 {
                     HorizontalScrollBarVisiblePolicy = ElmSharp.ScrollBarVisiblePolicy.Invisible,
@@ -159,20 +80,11 @@ namespace Tizen.TV.UIControls.Forms.Renderer
                 _genGrid.ItemFocused += OnItemFocused;
                 _genGrid.ItemUnfocused += OnItemUnfocused;
                 
-                Log.Error("XSF", "Enter 161");
-
                 if (Element.ItemsSource != null)
                 {
-                    Log.Error("XSF", "Enter");
                     UpdateItemsSource();
                 }
-                else 
-                {
-                    Log.Error("XSF", "ItemSouce is null");
-                }
-                Log.Error("XSF", "Enter");
-
-                _genGrid.Show();
+                //_genGrid.Show();
                 SetNativeControl(_genGrid);
             }
             base.OnElementChanged(e);
@@ -210,10 +122,9 @@ namespace Tizen.TV.UIControls.Forms.Renderer
         {
             GengridItemContext context = e.Item.Data as GengridItemContext;
             Element.SelectedItem = context.Data;
-            Log.Error("XSF", "12 " + Element.SelectedItem);
         }
 
-        protected virtual void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == GridView.ItemWidthProperty.PropertyName)
             {
@@ -229,7 +140,6 @@ namespace Tizen.TV.UIControls.Forms.Renderer
             }
             else if (e.PropertyName == GridView.ItemsSourceProperty.PropertyName)
             {
-                Log.Error("XSF", "Enter");
                 UpdateItemsSource();
             }
             base.OnElementPropertyChanged(sender, e);
@@ -237,7 +147,8 @@ namespace Tizen.TV.UIControls.Forms.Renderer
 
         void UpdateItemsSource()
         {
-            Log.Error("XSF", "Enter");
+            _genGrid.Clear();
+            itemContexts.Clear();
             foreach (var item in Element.ItemsSource)
             {
                 View realview = CreateContent(Element.ItemTemplate, item);
@@ -249,15 +160,12 @@ namespace Tizen.TV.UIControls.Forms.Renderer
                 };
                 itemContexts.Add(context);
                 var gridItem = _genGrid.Append(gridItemClass, context);
-                //gridItem.IsSelected = true;
             }
-            Log.Error("XSF", "Enter");
-
         }
 
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Log.Error("XSF","Enter "+e.Action);
+            UpdateItemsSource();
         }
 
         View CreateContent(ImageCell cell)

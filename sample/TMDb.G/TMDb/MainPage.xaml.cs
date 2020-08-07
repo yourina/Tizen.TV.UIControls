@@ -73,30 +73,19 @@ namespace TMDb
 
         async void MenuItemsView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            Tizen.Log.Error("XSF","Enter");
             MenuItemModel itemModel = e.SelectedItem as MenuItemModel;
             if (itemModel.Movies == null)
             {
-                Tizen.Log.Error("XSF", "Movie is null");
                 ContentHolder.Content = new WaitingView
                 {
                     Opacity = 0.8
                 };
-                Tizen.Log.Error("XSF", "Enter");
                 itemModel.Movies = await LoadMovieListAsync(itemModel.Text);
-                Tizen.Log.Error("XSF", "Enter");
-                System.Console.WriteLine("Done");
             }
-
-            Tizen.Log.Error("XSF", "Enter");
             ContentHolder.Content = PosterView;
-            Tizen.Log.Error("XSF", "Enter");
             PosterView.BindingContext = itemModel.Movies;
-            Tizen.Log.Error("XSF", "Enter");
             BackdropImage.SetBinding(FFImageLoading.Forms.CachedImage.SourceProperty, new Binding("Backdrops", source: PosterView, converter: new PosterUrlConverter()));
-            Tizen.Log.Error("XSF", "Enter");
             PosterView.Backdrops = itemModel.Movies.Items[0].BackdropPath;
-            Tizen.Log.Error("XSF", "Enter");
         }
 
         async Task<MovieListModel> LoadMovieListAsync(string menu)
@@ -105,9 +94,7 @@ namespace TMDb
             IList<SearchMovie> items = null;
             if (menu == "Now playing")
             {
-                Tizen.Log.Error("XSF", "Enter");
                 items = (await client.GetMovieNowPlayingListAsync()).Results;
-                Tizen.Log.Error("XSF", "Enter");
             }
             else if (menu == "Top rated")
             {
