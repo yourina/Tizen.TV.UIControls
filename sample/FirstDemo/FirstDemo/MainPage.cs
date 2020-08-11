@@ -172,7 +172,9 @@ namespace FirstDemo
 
         void OnItemFocused(object sender, GridViewItemFocusedEventArgs e)
         {
-            View target = e.TargetView;
+            View target2s = e.TargetView;
+            View target = e.VisualElement as View;
+            Tizen.Log.Error("XSF", "Enter && " + e.VisualElement);
 
             if (e.IsFocused == true)
             {
