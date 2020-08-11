@@ -4,7 +4,7 @@
     <ui-application appid="org.tizen.TMDb.G" exec="TMDb.Tizen.dll" multiple="false" nodisplay="false" taskmanage="true" type="dotnet" splash-screen-display="true" launch_mode="single">
         <label>TMDb</label>
         <icon>TMDb.Tizen.png</icon>
-        <metadata key="http://tizen.org/metadata/prefer_dotnet_aot" value="false" />
+        <metadata key="http://tizen.org/metadata/prefer_dotnet_aot" value="true" />
         <splash-screens />
     </ui-application>
     <shortcut-list />

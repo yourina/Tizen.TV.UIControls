@@ -37,11 +37,9 @@ namespace Tizen.TV.UIControls.Forms
 
         public static readonly BindableProperty ThemeStyleProperty = BindableProperty.Create("ThemeStyle", typeof(string), typeof(GridView), default(string));
 
-        public static readonly BindableProperty ItemStyleProperty = BindableProperty.Create("ItemStyle", typeof(string), typeof(GridView), default(string));
-
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(GridView), null, propertyChanged: (b, o, n) => ((GridView)b).UpdateSelectedItems());
 
-        public event EventHandler<GridViewSelectedItemChangedEventArgs> SelectedItemChanged;
+        public event EventHandler<SelectedItemChangedEventArgs> ItemSelected;
 
         public event EventHandler<GridViewItemFocusedEventArgs> ItemFocused;
 
@@ -97,16 +95,16 @@ namespace Tizen.TV.UIControls.Forms
             set { SetValue(ThemeStyleProperty, value); }
         }
 
-        public string ItemStyle
+        public void SendItemFocused(GridViewItemFocusedEventArgs args)
         {
-            get { return (string)GetValue(ItemStyleProperty); }
-            set { SetValue(ItemStyleProperty, value); }
+            ItemFocused?.Invoke(this, args);
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
         }
+
         protected bool ValidateItemTemplate(DataTemplate template)
         {
             if (template == null)
@@ -121,23 +119,11 @@ namespace Tizen.TV.UIControls.Forms
             return false;
         }
 
-        static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var element = newValue as Element;
-            if (element == null)
-                return;
-            element.Parent = (Element)bindable;
-        }
-
         void UpdateSelectedItems()
         {
-            SelectedItemChanged?.Invoke(this, new GridViewSelectedItemChangedEventArgs(SelectedItem));
+            ItemSelected?.Invoke(this, new SelectedItemChangedEventArgs(SelectedItem, -1));
         }
 
-        public void SendItemFocused(GridViewItemFocusedEventArgs args)
-        {
-            ItemFocused?.Invoke(this, args);
-        }
        
     }
 }

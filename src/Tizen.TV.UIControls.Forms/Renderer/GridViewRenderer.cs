@@ -19,11 +19,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
-using Tizen.TV.UIControls.Forms;
-using Tizen.TV.UIControls.Forms.Renderer;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Tizen;
+using Tizen.TV.UIControls.Forms;
+using Tizen.TV.UIControls.Forms.Renderer;
 using XForm = Xamarin.Forms;
 
 [assembly: ExportRenderer(typeof(GridView), typeof(GridViewRenderer))]
@@ -84,44 +83,9 @@ namespace Tizen.TV.UIControls.Forms.Renderer
                 {
                     UpdateItemsSource();
                 }
-                //_genGrid.Show();
                 SetNativeControl(_genGrid);
             }
             base.OnElementChanged(e);
-        }
-
-        private void OnItemUnfocused(object sender, GenGridItemEventArgs e)
-        {
-            GengridItemContext context = e.Item.Data as GengridItemContext;
-            Element.SendItemFocused(new GridViewItemFocusedEventArgs(context.Data, context.RealizedView, false));
-        }
-
-        private void OnItemFocused(object sender, GenGridItemEventArgs e)
-        {
-            GengridItemContext context = e.Item.Data as GengridItemContext;
-            Element.SendItemFocused(new GridViewItemFocusedEventArgs(context.Data, context.RealizedView, true));
-        }
-
-        View CreateContent(DataTemplate template, Object data)
-        {
-            var content = template.CreateContent();
-            if (content is View view)
-                return view;
-            else if (content is ViewCell viewCell)
-                return viewCell.View;
-            else if (content is ImageCell imageCell) 
-                return CreateContent(imageCell);
-            else if (content is TextCell textCell) 
-                return CreateContent(textCell);
-            else
-                return CreateContent(new TextCell { Text = data?.ToString() });
-        }
-
-
-        void OnItemSelected(object sender, GenGridItemEventArgs e)
-        {
-            GengridItemContext context = e.Item.Data as GengridItemContext;
-            Element.SelectedItem = context.Data;
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -145,10 +109,54 @@ namespace Tizen.TV.UIControls.Forms.Renderer
             base.OnElementPropertyChanged(sender, e);
         }
 
+        void OnItemSelected(object sender, GenGridItemEventArgs e)
+        {
+            GengridItemContext context = e.Item.Data as GengridItemContext;
+            Element.SelectedItem = context.Data;
+        }
+
+        void OnItemUnfocused(object sender, GenGridItemEventArgs e)
+        {
+            GengridItemContext context = e.Item.Data as GengridItemContext;
+            Element.SendItemFocused(new GridViewItemFocusedEventArgs(context.Data, context.RealizedView, false));
+        }
+
+        void OnItemFocused(object sender, GenGridItemEventArgs e)
+        {
+            GengridItemContext context = e.Item.Data as GengridItemContext;
+            Element.SendItemFocused(new GridViewItemFocusedEventArgs(context.Data, context.RealizedView, true));
+        }
+
+        View CreateContent(DataTemplate template, Object data)
+        {
+            var content = template.CreateContent();
+            if (content is View view)
+                return view;
+            else if (content is ViewCell viewCell)
+                return viewCell.View;
+            else if (content is ImageCell imageCell)
+                return CreateContent(imageCell);
+            else if (content is TextCell textCell)
+                return CreateContent(textCell);
+            else
+                return CreateContent(new TextCell { Text = data?.ToString() });
+        }
+
         void UpdateItemsSource()
         {
             _genGrid.Clear();
             itemContexts.Clear();
+
+            if (Element.ItemsSource is INotifyCollectionChanged _collection)
+            {
+                _collection.CollectionChanged -= OnCollectionChanged;
+            }
+
+            if (Element.ItemsSource == null)
+            {
+                return;
+            }
+
             foreach (var item in Element.ItemsSource)
             {
                 View realview = CreateContent(Element.ItemTemplate, item);
@@ -160,6 +168,11 @@ namespace Tizen.TV.UIControls.Forms.Renderer
                 };
                 itemContexts.Add(context);
                 var gridItem = _genGrid.Append(gridItemClass, context);
+            }
+
+            if (Element.ItemsSource is INotifyCollectionChanged collection)
+            {
+                collection.CollectionChanged += OnCollectionChanged;
             }
         }
 

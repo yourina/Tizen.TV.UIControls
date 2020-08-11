@@ -64,7 +64,7 @@ namespace TMDb
 
         public Tizen.TV.UIControls.Forms.GridView ItemContent => ItemsView;
 
-        async  void ItemsView_SelectedItemChanged(object sender, GridViewSelectedItemChangedEventArgs e)
+        async  void ItemsView_SelectedItemChanged(object sender, SelectedItemChangedEventArgs e)
         {
             var movie = e.SelectedItem as TMDbLib.Objects.Search.SearchMovie;
             Backdrops = movie.BackdropPath;

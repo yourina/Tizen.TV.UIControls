@@ -283,7 +283,7 @@ namespace FirstDemo
             };
             menuGrid.ItemsSource = files;
             menuGrid.ItemTemplate = dataTemplage;
-            menuGrid.SelectedItemChanged += OnMenuSelectedItemChanged;
+            menuGrid.ItemSelected += OnMenuSelectedItemChanged;
             AbsoluteLayout.SetLayoutBounds(menuGrid, new Rectangle(100, 0, 1920, 160));
             AbsoluteLayout.SetLayoutFlags(menuGrid, AbsoluteLayoutFlags.None);
             bottom.Children.Add(menuGrid);
@@ -300,7 +300,7 @@ namespace FirstDemo
             this.Content = backLayout;
         }
 
-        void OnMenuSelectedItemChanged(object sender, GridViewSelectedItemChangedEventArgs e)
+        void OnMenuSelectedItemChanged(object sender, SelectedItemChangedEventArgs e)
         {
             File item = e.SelectedItem as File;
             Tizen.Log.Error("XSF", "Enter [" + item?.Source+"]");
