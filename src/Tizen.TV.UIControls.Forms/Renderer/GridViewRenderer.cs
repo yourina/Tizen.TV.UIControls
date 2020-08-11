@@ -74,9 +74,6 @@ namespace Tizen.TV.UIControls.Forms.Renderer
                     ItemAlignmentY = Element.ItemVerticalAlignment,
                     Style = Element.ThemeStyle,
                 };
-
-                Log.Error("XSF","Enter : "+Element.IsHorizontalScrollBarVisible);
-
                 _genGrid.ItemSelected += OnItemSelected;
                 _genGrid.ItemFocused += OnItemFocused;
                 _genGrid.ItemUnfocused += OnItemUnfocused;
