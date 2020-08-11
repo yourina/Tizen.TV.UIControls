@@ -118,13 +118,13 @@ namespace Tizen.TV.UIControls.Forms.Renderer
         void OnItemUnfocused(object sender, GenGridItemEventArgs e)
         {
             GengridItemContext context = e.Item.Data as GengridItemContext;
-            Element.SendItemFocused(new GridViewItemFocusedEventArgs(context.Data, context.RealizedView, false));
+            Element.SendItemFocused(new GridViewFocusedEventArgs(context.Data, context.RealizedView, false));
         }
 
         void OnItemFocused(object sender, GenGridItemEventArgs e)
         {
             GengridItemContext context = e.Item.Data as GengridItemContext;
-            Element.SendItemFocused(new GridViewItemFocusedEventArgs(context.Data, context.RealizedView, true));
+            Element.SendItemFocused(new GridViewFocusedEventArgs(context.Data, context.RealizedView, true));
         }
 
         View CreateContent(DataTemplate template, Object data)
