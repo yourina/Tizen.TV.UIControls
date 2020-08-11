@@ -19,6 +19,7 @@
                          HeightRequest="900"
                          ItemWidth="460"
                          ItemHeight="690"
+                         IsHorizontal="true"
                          ItemSelected="ItemsView_SelectedItemChanged"
                          >
                 <tv:GridView.ItemTemplate>

@@ -49,6 +49,7 @@ namespace FirstDemo
                 BackgroundColor = new Color(1, 1, 1, 0.6),
             };
             AbsoluteLayout.SetLayoutBounds(top, new Rectangle(0, 570, 1920, 350));
+            //AbsoluteLayout.SetLayoutBounds(top, new Rectangle(0, 220, 1920, 700));
             AbsoluteLayout.SetLayoutFlags(top, AbsoluteLayoutFlags.None);
 
             var label = new Label()
@@ -78,6 +79,8 @@ namespace FirstDemo
             {
                 ItemWidth = 360,
                 ItemHeight = 250,
+                IsHorizontal = true,
+                IsHorizontalScrollBarVisible = true
                 //ItemHorizontalAlignment = 1.0,
                 //ItemVerticalAlignment = 1.0
             };
@@ -154,6 +157,7 @@ namespace FirstDemo
             {
                 ItemWidth = 350,
                 ItemHeight = 550,
+                IsHorizontal = true,
                 //ItemStyle = "poster",
                 //BackgroundColor = Color.Yellow
             };
@@ -226,6 +230,7 @@ namespace FirstDemo
             {
                 ItemWidth = 360,
                 ItemHeight = 250,
+                IsHorizontal = true,
             };
             detailGrid3.ItemsSource = files4;
             detailGrid3.ItemTemplate = dataTemplage;
@@ -270,6 +275,7 @@ namespace FirstDemo
                 ItemHorizontalAlignment = 0.5,
                 ItemVerticalAlignment = 0.5,
                 ThemeStyle = "small",
+                IsHorizontal = true,
             };
             menuGrid.ItemsSource = files;
             menuGrid.ItemTemplate = dataTemplage;

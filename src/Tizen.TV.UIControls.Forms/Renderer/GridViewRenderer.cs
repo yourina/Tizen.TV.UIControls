@@ -65,15 +65,17 @@ namespace Tizen.TV.UIControls.Forms.Renderer
             {
                 _genGrid = new ElmSharp.GenGrid(Xamarin.Forms.Forms.NativeParent)
                 {
-                    HorizontalScrollBarVisiblePolicy = ElmSharp.ScrollBarVisiblePolicy.Invisible,
-                    VerticalScrollBarVisiblePolicy = ElmSharp.ScrollBarVisiblePolicy.Invisible,
-                    IsHorizontal = true,
+                    HorizontalScrollBarVisiblePolicy = Element.IsHorizontalScrollBarVisible == false ? ElmSharp.ScrollBarVisiblePolicy.Invisible : ScrollBarVisiblePolicy.Visible,
+                    VerticalScrollBarVisiblePolicy = Element.IsHorizontalScrollBarVisible == false ? ElmSharp.ScrollBarVisiblePolicy.Invisible : ScrollBarVisiblePolicy.Visible,
+                    IsHorizontal = Element.IsHorizontal,
                     ItemWidth = Element.ItemWidth,
                     ItemHeight = Element.ItemHeight,
                     ItemAlignmentX = Element.ItemHorizontalAlignment,
                     ItemAlignmentY = Element.ItemVerticalAlignment,
                     Style = Element.ThemeStyle,
                 };
+
+                Log.Error("XSF","Enter : "+Element.IsHorizontalScrollBarVisible);
 
                 _genGrid.ItemSelected += OnItemSelected;
                 _genGrid.ItemFocused += OnItemFocused;

@@ -39,6 +39,12 @@ namespace Tizen.TV.UIControls.Forms
 
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(GridView), null, propertyChanged: (b, o, n) => ((GridView)b).UpdateSelectedItems());
 
+        public static readonly BindableProperty IsHorizontalProperty = BindableProperty.Create("IsHorizontal", typeof(bool), typeof(GridView), false);
+
+        public static readonly BindableProperty IsHorizontalScrollBarVisibleProperty = BindableProperty.Create("IsHorizontalScrollBarVisible", typeof(bool), typeof(GridView), false);
+
+        public static readonly BindableProperty IsVerticalScrollBarVisibleProperty = BindableProperty.Create("IsVerticalScrollBarVisible", typeof(bool), typeof(GridView), false);
+
         public event EventHandler<SelectedItemChangedEventArgs> ItemSelected;
 
         public event EventHandler<GridViewFocusedEventArgs> ItemFocused;
@@ -93,6 +99,24 @@ namespace Tizen.TV.UIControls.Forms
         {
             get { return (string)GetValue(ThemeStyleProperty); }
             set { SetValue(ThemeStyleProperty, value); }
+        }
+
+        public bool IsHorizontal
+        {
+            get { return (bool)GetValue(IsHorizontalProperty); }
+            set { SetValue(IsHorizontalProperty, value); }
+        }
+
+        public bool IsHorizontalScrollBarVisible
+        {
+            get { return (bool)GetValue(IsHorizontalScrollBarVisibleProperty); }
+            set { SetValue(IsHorizontalScrollBarVisibleProperty, value); }
+        }
+
+        public bool IsVerticalScrollBarVisible
+        {
+            get { return (bool)GetValue(IsVerticalScrollBarVisibleProperty); }
+            set { SetValue(IsVerticalScrollBarVisibleProperty, value); }
         }
 
         public void SendItemFocused(GridViewFocusedEventArgs args)
