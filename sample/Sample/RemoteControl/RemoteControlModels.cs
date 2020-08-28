@@ -45,6 +45,7 @@ namespace Sample
                 new RemoteControlTestModel("NavigationPage test", typeof(TestNavigationPage)),
                 new RemoteControlTestModel("TabbedPage test", typeof(TestTabbedPage)),
                 new RemoteControlTestModel("MasterDetailPage test", typeof(TestMasterDetailPage)),
+                new RemoteControlTestModel("GridView test", typeof(GridViewTest)),
             };
         }
     }

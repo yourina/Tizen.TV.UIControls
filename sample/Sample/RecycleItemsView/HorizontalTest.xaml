@@ -8,21 +8,20 @@
         <ScrollView>
             <StackLayout>
                 <Label Text="ScrollPolicy=Center"/>
-                <tvcontrols:RecycleItemsView BackgroundColor="AliceBlue"
-                        ScrollPolicy="Center"
-                        ContentMargin="100"
-                        ItemWidth="300"
-                        ItemHeight="200"
-                        Spacing="30"
-                        ItemsSource="{Binding Items}">
-                    <tvcontrols:RecycleItemsView.ItemTemplate>
+                <tvcontrols:GridView BackgroundColor="AliceBlue"
+                        ItemWidth="100"
+                        ItemHeight="100"
+                        ItemsSource="{Binding Items}"
+                                     WidthRequest="500"
+                                     HeightRequest="300">
+                    <tvcontrols:GridView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout BackgroundColor="{Binding Color}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                                 <Label Text="{Binding Text}" VerticalOptions="Center" HorizontalOptions="Center"/>
                             </StackLayout>
                         </DataTemplate>
-                    </tvcontrols:RecycleItemsView.ItemTemplate>
-                </tvcontrols:RecycleItemsView>
+                    </tvcontrols:GridView.ItemTemplate>
+                </tvcontrols:GridView>
                 <Label Text="ScrollPolicy=MakeVisible"/>
                 <tvcontrols:RecycleItemsView BackgroundColor="DeepPink"
                         ScrollPolicy="MakeVisible"
