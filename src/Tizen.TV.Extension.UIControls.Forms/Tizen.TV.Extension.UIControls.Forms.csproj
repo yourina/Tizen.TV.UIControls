@@ -1,0 +1,17 @@
+﻿<Project Sdk="Tizen.NET.Sdk/1.0.9">
+
+  <PropertyGroup>
+    <TargetFramework>tizen60</TargetFramework>
+    <DisableImplicitFrameworkReferences>True</DisableImplicitFrameworkReferences>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Tizen.NET.TV" Version="6.6.0.5599517" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991537" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tizen.TV.UIControls.Forms\Tizen.TV.UIControls.Forms.csproj" />
+  </ItemGroup>
+
+</Project>

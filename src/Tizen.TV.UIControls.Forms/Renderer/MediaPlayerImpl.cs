@@ -30,7 +30,7 @@ namespace Tizen.TV.UIControls.Forms.Renderer
 {
     public class MediaPlayerImpl : IPlatformMediaPlayer
     {
-        Player _player;
+        protected Player _player;
 
         bool _cancelToStart;
         DisplayAspectMode _aspectMode = DisplayAspectMode.AspectFit;
@@ -41,9 +41,17 @@ namespace Tizen.TV.UIControls.Forms.Renderer
 
         public MediaPlayerImpl()
         {
-            _player = new Player();
+            if(_player == null)
+                _player = CreateMediaPlayer();
+
             _player.PlaybackCompleted += OnPlaybackCompleted;
             _player.BufferingProgressChanged += OnBufferingProgressChanged;
+            Tizen.Log.Error("XSF","Etner");
+        }
+
+        protected virtual Player CreateMediaPlayer()
+        {
+            return new Player();
         }
 
         public bool UsesEmbeddingControls
