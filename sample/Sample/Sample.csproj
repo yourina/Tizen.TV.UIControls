@@ -15,6 +15,9 @@
     <Compile Update="Entry\EntryMainPage.xaml.cs">
       <DependentUpon>EntryMainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="MediaPlayer\OverlayViewWithRecycle.xaml.cs">
+      <DependentUpon>OverlayViewWithRecycle.xaml</DependentUpon>
+    </Compile>
     <Compile Update="MediaPlayer\PlayerMainPage.xaml.cs">
       <DependentUpon>PlayerMainPage.xaml</DependentUpon>
     </Compile>

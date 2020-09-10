@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tvcontrols="clr-namespace:Tizen.TV.UIControls.Forms;assembly=Tizen.TV.UIControls.Forms"
+             x:Class="Sample.OverlayViewWithRecycle"
+             NavigationPage.HasNavigationBar="false">
+    <AbsoluteLayout>
+        <tvcontrols:OverlayMediaView x:Name="VideoView"  AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <tvcontrols:MediaPlayer Source="{Binding Source}" AutoPlay="true" UsesEmbeddingControls="False"/>
+        </tvcontrols:OverlayMediaView>
+        <AbsoluteLayout AbsoluteLayout.LayoutBounds="0, 680, 1920, 400" AbsoluteLayout.LayoutFlags="None" BackgroundColor="#77777755">
+            <tvcontrols:RecycleItemsView BackgroundColor="#77777755"
+                        ScrollPolicy="Center"
+                        ContentMargin="100"
+                        ItemWidth="300"
+                        ItemHeight="200"
+                        Spacing="30"
+                        ItemsSource="{Binding Items}">
+                <tvcontrols:RecycleItemsView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout BackgroundColor="{Binding Color}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                            <Button Text="{Binding Text}"/>
+                            <Label Text="{Binding Text}" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </tvcontrols:RecycleItemsView.ItemTemplate>
+            </tvcontrols:RecycleItemsView>
+        </AbsoluteLayout>
+
+    </AbsoluteLayout>
+</ContentPage>

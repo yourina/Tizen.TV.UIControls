@@ -15,8 +15,10 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Tizen.TV.UIControls.Forms;
+using XF = Xamarin.Forms;
 
 namespace Sample
 {
@@ -37,11 +39,22 @@ namespace Sample
         public object SubModel { get; }
     }
 
+    public class OverlayPlayerTestModel : PlayerTestModel
+    {
+        public OverlayPlayerTestModel(string name, Type page, MediaSource source, IList items) : base(name, page, source)
+        {
+            Items = items;
+        }
+
+        public IList Items { get; }
+    }
+
     public class AudioItem
     {
         public string Path { get; set; }
         public string Text { get; set; }
     }
+
     public class AudioPlayerTestModel : PlayerTestModel
     {
         public IList<AudioItem> Items { get; }
@@ -54,6 +67,7 @@ namespace Sample
             };
         }
     }
+
     public class PlayerMainPageModel
     {
         public PlayerMainPageModel()
@@ -67,11 +81,34 @@ namespace Sample
                 new PlayerTestModel("Overlay page test", typeof(TestOverlayPage), MediaSource.FromFile("tvcm.mp4")),
                 new PlayerTestModel("Overlay page test with code", typeof(TestOverlayPage2), MediaSource.FromFile("tvcm.mp4")),
                 new PlayerTestModel("Overlay view test", typeof(TestOverlayView), MediaSource.FromFile("iu.mp4")),
+                new OverlayPlayerTestModel("Overlay View Test with RecycleView", typeof(OverlayViewWithRecycle), MediaSource.FromFile("tvcm.mp4"), ColorModel.MakeModel(10)),
                 new PlayerTestModel("Aspect test", typeof(TestAspect), MediaSource.FromFile("pixel2-cf.mp4")),
                 new PlayerTestModel("Url test", typeof(TestOverlayPage), MediaSource.FromUri(new System.Uri("http://download.blender.org/demo/movies/caminandes_gran_dillama.mp4"))),
             };
         }
 
         public List<PlayerTestModel> TestList { get; set; }
+    }
+
+    class ColorModel
+    {
+        public XF.Color Color { get; set; }
+        public string Text { get; set; }
+
+        public static List<ColorModel> MakeModel(int count = 3000)
+        {
+            List<ColorModel> list = new List<ColorModel>();
+            Random rnd = new Random();
+            for (int i = 0; i < count; i++)
+            {
+                XF.Color color = XF.Color.FromRgb(rnd.Next(255), rnd.Next(255), rnd.Next(255));
+                list.Add(new ColorModel
+                {
+                    Color = color,
+                    Text = $"Color: {(int)(color.R * 255)}, {(int)(color.G * 255)}, {(int)(color.B * 255)}"
+                });
+            }
+            return list;
+        }
     }
 }
