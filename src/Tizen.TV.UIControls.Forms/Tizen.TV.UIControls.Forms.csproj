@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;tizen40</TargetFrameworks>
+    <TargetFrameworks>tizen40</TargetFrameworks>
     <AssemblyName>Tizen.TV.UIControls.Forms</AssemblyName>
     <RootNamespace>Tizen.TV.UIControls.Forms</RootNamespace>
     <PackageId>Tizen.TV.UIControls</PackageId>
@@ -25,6 +25,7 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991537" />
+    <PackageReference Include="Tizen.NET" Version="4.0.0" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'tizen40' ">
