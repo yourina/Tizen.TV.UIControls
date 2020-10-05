@@ -30,18 +30,12 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
 
         public TVESPlayerImpl()
         {
-            Tizen.Log.Error("XSF", "Enter");
-            Tizen.Log.Error("XSFIMP", "Enter");
             esPlayer = new ESPlayer();
-            Tizen.Log.Error("XSF", $"Enter{esPlayer}");
-            //esPlayer.BufferStatusChanged += OnBufferStatusChanged;
-           
-
+            Tizen.Log.Error("XSF", $"Enter {esPlayer} : 1005 0816 PM");
         }
 
         public void Pause()
         {
-            Tizen.Log.Error("XSF", "Etner");
             Tizen.Log.Error("XSFIMP", "Enter");
         }
 
@@ -78,32 +72,29 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
             {
                 esPlayer.SetDisplay(null);
             }
-            else if (!IsOverlayMode)
-            {
-                Log.Error("XSF", "Error on MediaView");
-                var renderer = Platform.GetRenderer(TargetView);
-                if (renderer is IMediaViewProvider provider && provider.GetMediaView() != null)
-                {
-                    try
-                    {
-                        //Display display = new Display(provider.GetMediaView());
-                        //_player.Display = display;
-                        //_player.DisplaySettings.Mode = _aspectMode.ToMultimeida();
-                    }
-                    catch
-                    {
-                        Log.Error("XSF", "Error on MediaView");
-                    }
-                }
-            }
+            //else if (!IsOverlayMode)
+            //{
+            //    Log.Error("XSF", "Error on MediaView");
+            //    var renderer = Platform.GetRenderer(TargetView);
+            //    if (renderer is IMediaViewProvider provider && provider.GetMediaView() != null)
+            //    {
+            //        try
+            //        {
+            //            //Display display = new Display(provider.GetMediaView());
+            //            //_player.Display = display;
+            //            //_player.DisplaySettings.Mode = _aspectMode.ToMultimeida();
+            //        }
+            //        catch
+            //        {
+            //            Log.Error("XSF", "Error on MediaView");
+            //        }
+            //    }
+            //}
             else
             {
-                Log.Error("XSFIMP", "Enter &&&&&&&&&&& ************** &&&&&&&&&&&&&&&");
-                //Display display = new Display(UIControls.MainWindowProvider());
-                //_player.Display = display;
+                Log.Error("XSFIMP", "Enter");
                 esPlayer.SetDisplay(TVForms.UIControls.MainWindowProvider());
                 OverlayOutput.AreaUpdated += OnOverlayAreaUpdated;
-                Log.Error("XSFIMP", "Enter");
                 ApplyOverlayArea();
                 Log.Error("XSFIMP", "Enter");
             }
@@ -113,17 +104,19 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
 
         async void OnTargetViewPropertyChanged(object sender, global::System.ComponentModel.PropertyChangedEventArgs e)
         {
-            Tizen.Log.Error("XSFIMP", "Enter");
+            Tizen.Log.Error("XSFIMP", $"Enter {e.PropertyName}");
             if (e.PropertyName == "Renderer")
             {
-                if (Platform.GetRenderer(sender as BindableObject) != null && HasSource && AutoPlay)
-                {
-                    await Start();
-                }
-                else if (Platform.GetRenderer(sender as BindableObject) == null && AutoStop)
-                {
-                    Stop();
-                }
+                ApplyDisplay();
+
+                //if (Platform.GetRenderer(sender as BindableObject) != null && HasSource && AutoPlay)
+                //{
+                //    await Start();
+                //}
+                //else if (Platform.GetRenderer(sender as BindableObject) == null && AutoStop)
+                //{
+                //    Stop();
+                //}
             }
         }
 
@@ -135,7 +128,7 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
 
         async void ApplyOverlayArea()
         {
-            Tizen.Log.Error("XSFIMP", "Enter ***********************");
+            Tizen.Log.Error("XSFIMP", "Enter");
             //if (_player.State == PlayerState.Preparing)
             //{
             //    await TaskPrepare;
@@ -151,10 +144,7 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
                 }
                 else
                 {
-
                     Tizen.Log.Error("XSFIMP", "Enter");
-                    //_player.DisplaySettings.Mode = DisplayMode.Roi;
-                    //esPlayer.SetDisplayMode(DisplayMode.)
                     var bound = OverlayOutput.OverlayArea.ToPixel();
                     var renderer = Platform.GetRenderer(TargetView);
                     if (renderer is OverlayViewRenderer)
@@ -168,8 +158,8 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
                         bound = parentArea;
                     }
                     var roiBound = bound.ToMultimedia();
-                    esPlayer.SetDisplayRoi(bound.X, bound.Y, bound.Width, bound.Height);
-                    //_player.DisplaySettings.SetRoi(bound.ToMultimedia());
+                    esPlayer.SetDisplayRoi(roiBound.X, roiBound.Y, roiBound.Width, roiBound.Height);
+                    Tizen.Log.Error("XSFIMP", $"Enter {bound} // {roiBound}");
                 }
             }
             catch (Exception e)
@@ -181,15 +171,15 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
 
         public void SetDisplay(IVideoOutput output)
         {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            Tizen.Log.Error("XSF", "Enter");
+            Tizen.Log.Error("XSFIMP", "Enter: IVideoOutput");
             VideoOutput = output;
         }
 
-        public void SetDisplay(ElmSharp.Window window)
-        {
-            esPlayer.SetDisplay(window);
-        }
+        //public void SetDisplay(ElmSharp.Window window)
+        //{
+        //    Tizen.Log.Error("XSFIMP", "Not called ******************");
+        //    esPlayer.SetDisplay(window);
+        //}
 
 
         public void SetSource(MediaSource source)
@@ -201,7 +191,6 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
         public void Open()
         {
             Tizen.Log.Error("XSFIMP", "Enter");
-            Tizen.Log.Error("XSF", "Enter");
             esPlayer.Open();
 
             //The Tizen TV emulator is based on the x86 architecture. Using trust zone (DRM'ed content playback) is not supported by the emulator.
@@ -229,7 +218,6 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
 
         public async Task<bool> Prepare(Action<StreamType> onReadyToPrepare)
         {
-            Tizen.Log.Error("XSF", "Enter");
             Tizen.Log.Error("XSFIMP", $"Enter : {esPlayer.GetState()}");
             await esPlayer.PrepareAsync(onReadyToPrepare);
             //if (esPlayer.GetState() == ESPlayerState.Ready)
@@ -245,7 +233,6 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
 
         async void OnReadyToPrepare(StreamType streamType)
         {
-            Tizen.Log.Error("XSF", "Enter");
             Log.Error("XSFIMP", $"Stream Type : {streamType}");
 
             switch (streamType)
@@ -260,14 +247,14 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
 
         public async Task<bool> Start()
         {
-            Tizen.Log.Error("XSFIMP", "Enter ***********");
+            Tizen.Log.Error("XSFIMP", "Enter");
             if (esPlayer.GetState() == ESPlayerState.Ready)
             {
                 esPlayer.Start();
 
                 Tizen.Log.Error("XSFIMP", "Enter");
-                ApplyDisplay();
-                Tizen.Log.Error("XSFIMP", "Enter");
+                //ApplyDisplay();
+                //Tizen.Log.Error("XSFIMP", "Enter");
             }
             else
             {
@@ -364,7 +351,6 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
         {
             Tizen.Log.Error("XSFIMP", "Enter");
             ResourceConflicted?.Invoke(sender, e);
-
         }
 
         void OnBufferStatusChanged(object sender, BufferStatusEventArgs e)

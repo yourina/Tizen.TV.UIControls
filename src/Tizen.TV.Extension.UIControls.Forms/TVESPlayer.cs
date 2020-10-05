@@ -47,6 +47,7 @@ namespace Tizen.TV.Extension.UIControls.Forms
             _esImpl.EOSEmitted += SendEOSEmitted;
             _esImpl.ErrorOccurred += SendErrorOccurred;
 
+            _esImpl.Open();
             Tizen.Log.Error("XSF", "Enter");
         }
 
@@ -56,20 +57,20 @@ namespace Tizen.TV.Extension.UIControls.Forms
             return DependencyService.Get<ITVESPlayer>(fetchTarget: DependencyFetchTarget.NewInstance) as IPlatformMediaPlayer;
         }
 
-        public void Open()
-        {
-            _esImpl.Open();
-        }
+        //public void Open()
+        //{
+        //    //_esImpl.Open();
+        //}
 
         public Task Prepare(Action<StreamType> onReadyToPrepare)
         {
             return _esImpl.Prepare(onReadyToPrepare);
         }
 
-        public void SetDisplay(ElmSharp.Window window)
-        {
-            _esImpl.SetDisplay(window);
-        }
+        //public void SetDisplay(ElmSharp.Window window)
+        //{
+        //    //_esImpl.SetDisplay(window);
+        //}
 
         public void Close()
         {

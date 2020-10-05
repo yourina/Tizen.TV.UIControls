@@ -15,7 +15,7 @@ namespace Tizen.TV.Extension.UIControls.Forms
 
         Task<bool> Prepare(Action<StreamType> onReadyToPrepare);
 
-        void SetDisplay(ElmSharp.Window window);
+        //void SetDisplay(ElmSharp.Window window);
 
         SubmitStatus SubmitPacket(ESPacket packet);
 
