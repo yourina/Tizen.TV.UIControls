@@ -78,7 +78,10 @@ namespace Tizen.TV.Extension.UIControls.Forms
         }
 
         public void Resume()
-        { 
+        {
+            Tizen.Log.Error("XSF", "Enter");
+            Tizen.Log.Error("XSIMPF", "Enter");
+            _esImpl.Resume();
         }
 
         public Multimedia.AudioStreamInfo AudioStreamInfo

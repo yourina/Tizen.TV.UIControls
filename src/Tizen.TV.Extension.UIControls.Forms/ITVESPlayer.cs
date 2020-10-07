@@ -43,6 +43,7 @@ namespace Tizen.TV.Extension.UIControls.Forms
 
         AudioStreamInfo AudioStreamInfo { set; }
 
+        void Resume();
 
     }
 }

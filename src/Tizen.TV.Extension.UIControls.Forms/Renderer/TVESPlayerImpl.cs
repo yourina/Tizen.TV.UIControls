@@ -38,7 +38,7 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
             esPlayer.ErrorOccurred += OnErrorOccurred;
             esPlayer.BufferStatusChanged += OnBufferStatusChanged;
             esPlayer.ResourceConflicted += OnResourceConflicted;
-            Tizen.Log.Error("XSFIMP", $"Enter {esPlayer} : 1007 0700 PM");
+            Tizen.Log.Error("XSFIMP", $"Enter {esPlayer} : 1007 0945 PM");
         }
 
         public void Pause()
@@ -48,6 +48,21 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
             try
             {
                 esPlayer.Pause();
+                PlaybackPaused.Invoke(this, EventArgs.Empty);
+            }
+            catch (Exception e)
+            {
+                Log.Error(UIControls.Tag, $"Error on Pause : {e.Message}");
+            }
+        }
+
+        public void Resume()
+        {
+            Tizen.Log.Error("XSFIMP", "Enter");
+            Log.Debug(UIControls.Tag, "Pause");
+            try
+            {
+                esPlayer.Resume();
                 PlaybackPaused.Invoke(this, EventArgs.Empty);
             }
             catch (Exception e)
