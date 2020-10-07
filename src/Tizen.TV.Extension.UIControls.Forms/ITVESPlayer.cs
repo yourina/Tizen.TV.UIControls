@@ -13,7 +13,7 @@ namespace Tizen.TV.Extension.UIControls.Forms
     {
         void Open();
 
-        Task<bool> Prepare(Action<StreamType> onReadyToPrepare);
+        //Task<bool> Prepare(Action<StreamType> onReadyToPrepare);
 
         //void SetDisplay(ElmSharp.Window window);
 
@@ -30,6 +30,10 @@ namespace Tizen.TV.Extension.UIControls.Forms
         event EventHandler<BufferStatusEventArgs> BufferStatusChanged;
 
         event EventHandler<ResourceConflictEventArgs> ResourceConflicted;
+
+        event EventHandler AudioReady;
+
+        event EventHandler VideoReady;
 
         ESPlayerState State { get; }
 

@@ -29,7 +29,7 @@ using Tizen.TV.Multimedia;
 namespace Tizen.TV.Extension.UIControls.Forms
 {
     /// <summary>
-    /// MediaPlayer provieds the essential components to play the media contents.
+    /// TVESMediaPlayer provieds the essential components to play the element stream.
     /// </summary>
     public class TVESPlayer : MediaPlayer
     {
@@ -46,11 +46,12 @@ namespace Tizen.TV.Extension.UIControls.Forms
             _esImpl.BufferStatusChanged += SendBufferStatusChanged;
             _esImpl.EOSEmitted += SendEOSEmitted;
             _esImpl.ErrorOccurred += SendErrorOccurred;
+            _esImpl.AudioReady += SendAudioReady;
+            _esImpl.VideoReady += SendVideoReady;
 
             _esImpl.Open();
             Tizen.Log.Error("XSF", "Enter");
         }
-
 
         protected override IPlatformMediaPlayer CreateMediaPlayerImpl()
         {
@@ -62,10 +63,10 @@ namespace Tizen.TV.Extension.UIControls.Forms
         //    //_esImpl.Open();
         //}
 
-        public Task Prepare(Action<StreamType> onReadyToPrepare)
-        {
-            return _esImpl.Prepare(onReadyToPrepare);
-        }
+        //public Task Prepare(Action<StreamType> onReadyToPrepare)
+        //{
+        //    return _esImpl.Prepare(onReadyToPrepare);
+        //}
 
         //public void SetDisplay(ElmSharp.Window window)
         //{
@@ -128,6 +129,20 @@ namespace Tizen.TV.Extension.UIControls.Forms
         public event EventHandler<BufferStatusEventArgs> BufferStatusChanged;
 
         public event EventHandler<ResourceConflictEventArgs> ResourceConflicted;
+
+        public event EventHandler AudioReady;
+
+        public event EventHandler VideoReady;
+
+        void SendVideoReady(object sender, EventArgs e)
+        {
+            VideoReady?.Invoke(sender, e);
+        }
+
+        void SendAudioReady(object sender, EventArgs e)
+        {
+            AudioReady?.Invoke(sender, e);
+        }
 
         void SendErrorOccurred(object sender, Multimedia.ErrorEventArgs e)
         {
