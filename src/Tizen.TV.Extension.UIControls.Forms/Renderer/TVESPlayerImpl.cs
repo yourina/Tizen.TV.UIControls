@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tizen.TV.UIControls.Forms.Renderer;
-//using TVRender = Tizen.TV.UIControls.Forms.Renderer;
-using Tizen.TV.Extension.UIControls.Forms.Renderer;
-using Tizen.TV.Multimedia;
-using TM = Tizen.Multimedia;
-using Tizen.TV.UIControls.Forms;
-using TVForms = Tizen.TV.UIControls.Forms;
 using System.IO;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Tizen;
-using System.Runtime.InteropServices;
+using TVForms = Tizen.TV.UIControls.Forms;
+using Tizen.TV.UIControls.Forms;
+using Tizen.TV.UIControls.Forms.Renderer;
+using Tizen.TV.Extension.UIControls.Forms.Renderer;
+using Tizen.TV.Multimedia;
+using TM = Tizen.TV.Multimedia;
 
 [assembly: Xamarin.Forms.Dependency(typeof(TVESPlayerImpl))]
 namespace Tizen.TV.Extension.UIControls.Forms.Renderer
@@ -21,15 +18,14 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
     class TVESPlayerImpl : ITVESPlayer
     {
         protected ESPlayer esPlayer;
-
         bool _cancelToStart;
         IVideoOutput _videoOutput;
-        //MediaSource _source;
         VideoStreamInfo _videoStreamInfo;
         AudioStreamInfo _audioStreamInfo;
         TaskCompletionSource<bool> _tcsSubmit;
-        int audioSubmit = 0;
-        int videoSubmit = 0;
+        bool _isMuted = false;
+        bool _isStarted = false;
+        DisplayAspectMode _aspectMode = DisplayAspectMode.AspectFit;
 
         public TVESPlayerImpl()
         {
@@ -38,9 +34,41 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
             esPlayer.ErrorOccurred += OnErrorOccurred;
             esPlayer.BufferStatusChanged += OnBufferStatusChanged;
             esPlayer.ResourceConflicted += OnResourceConflicted;
-            Tizen.Log.Error("XSFIMP", $"Enter {esPlayer} : 1007 0945 PM");
+            esPlayer.Open();
+
+            //The Tizen TV emulator is based on the x86 architecture. Using trust zone (DRM'ed content playback) is not supported by the emulator.
+            if (RuntimeInformation.ProcessArchitecture != Architecture.X86)
+            {
+                esPlayer.SetTrustZoneUse(true);
+            }
+            Tizen.Log.Error("XSFIMP", $"Enter {esPlayer} : 1008 + 0858 PM + SeekReady + PrepareReady");
         }
 
+        public async Task<bool> Start()
+        {
+            if (_tcsSubmit == null || _tcsSubmit.Task.IsCompleted)
+            {
+                _tcsSubmit = new TaskCompletionSource<bool>();
+            }
+
+            Tizen.Log.Error("XSFIMP", "Enter");
+            await esPlayer.PrepareAsync(OnReadyToPrepare);
+
+            if (esPlayer.GetState() == ESPlayerState.Ready)
+            {
+                await _tcsSubmit.Task;
+                esPlayer.Start();
+                _isStarted = true;
+                Tizen.Log.Error("XSFIMP", "Enter");
+                //ApplyDisplay();
+            }
+            else
+            {
+                return false;
+            }
+            PlaybackStarted?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
         public void Pause()
         {
             Tizen.Log.Error("XSFIMP", "Enter");
@@ -67,7 +95,250 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
             }
             catch (Exception e)
             {
-                Log.Error(UIControls.Tag, $"Error on Pause : {e.Message}");
+                Log.Error(UIControls.Tag, $"Error on Resume : {e.Message}");
+            }
+        }
+        public void Stop()
+        {
+            Tizen.Log.Error("XSF", "Etner");
+
+            _cancelToStart = true;
+            var unusedTask = ChangeToIdleState();
+            PlaybackStopped.Invoke(this, EventArgs.Empty);
+        }
+
+        public SubmitStatus SubmitPacket(ESPacket packet)
+        {
+            _tcsSubmit?.TrySetResult(true);
+            Tizen.Log.Error("XSF", $"Enter : {packet.type}");
+            return esPlayer.SubmitPacket(packet);
+        }
+
+        public SubmitStatus SubmitEosPacket(Tizen.TV.Multimedia.StreamType type)
+        {
+            Tizen.Log.Error("XSFIMP", $"Enter {Position}");
+            var status = esPlayer.SubmitEosPacket(type);
+            return status;
+        }
+
+        public SubmitStatus SubmitPacket(ESHandlePacket packet)
+        {
+            Tizen.Log.Error("XSF", $"Enter {Position}");
+            return esPlayer.SubmitPacket(packet);
+        }
+
+        public async Task<int> Seek(int ms)
+        {
+            Tizen.Log.Error("XSFIMP", "Enter");
+            TimeSpan time = new TimeSpan(0, 0, 0, 0, ms);
+
+            await esPlayer.SeekAsync(time, OnSeekReady);
+            Tizen.Log.Error("XSF", "Etner");
+            return ms;
+        }
+
+        public void SetDisplay(IVideoOutput output)
+        {
+            Tizen.Log.Error("XSFIMP", "Enter: IVideoOutput");
+            VideoOutput = output;
+        }
+
+        public void SetSource(MediaSource source)
+        {
+        }
+
+        public event EventHandler PlaybackCompleted;
+        public event EventHandler PlaybackStarted;
+        public event EventHandler PlaybackPaused;
+        public event EventHandler PlaybackStopped;
+        public event EventHandler UpdateStreamInfo;
+        public event EventHandler<BufferingProgressUpdatedEventArgs> BufferingProgressUpdated;
+
+
+        public event EventHandler<EOSEventArgs> EOSEmitted;
+        public event EventHandler<Multimedia.ErrorEventArgs> ErrorOccurred;
+        public event EventHandler<BufferStatusEventArgs> BufferStatusChanged;
+        public event EventHandler<ResourceConflictEventArgs> ResourceConflicted;
+        public event EventHandler<StreamEventArgs> StreamReady;
+        //public event EventHandler VideoReady;
+        public event EventHandler<SeekEventArgs> SeekReady;
+
+
+        public bool UsesEmbeddingControls { get; set; }
+
+        public bool AutoPlay { get; set; }
+
+        public bool AutoStop { get; set; }
+
+        public double Volume { get; set; }
+
+        public bool IsMuted 
+        {
+            get
+            {
+                return _isMuted;
+            }
+            set
+            {
+                _isMuted = value;
+                esPlayer.SetAudioMute(_isMuted);
+            }
+            
+        }
+
+        public int Position 
+        {
+            get
+            {
+                if (!_isStarted)
+                    return 0;
+
+                TimeSpan time;
+                esPlayer.GetPlayingTime(out time);
+                var position = (int)time.TotalMilliseconds;
+                return position;
+            }
+        }
+
+        public int Duration 
+        {
+            get
+            {
+                return -1;
+            }
+        }
+
+        public DisplayAspectMode AspectMode 
+        { 
+            get
+            { 
+                return _aspectMode; 
+            }
+            set
+            {
+                Tizen.Log.Error("XSFIMP","Enter ****************");
+                _aspectMode = value;
+                esPlayer.SetDisplayMode(_aspectMode.ToMultimeida());
+            }
+        }
+
+        public async Task<Stream> GetAlbumArts()
+        {
+            return null;
+        }
+
+        public async Task<IDictionary<string, string>> GetMetadata()
+        {
+            return null;
+        }
+
+        public TimeSpan PlayingTime
+        {
+            get
+            {
+                //Tizen.Log.Error("XSFIMP", "Enter");
+                TimeSpan time;
+                esPlayer.GetPlayingTime(out time);
+                return time;
+            }
+        }
+
+        public VideoStreamInfo VideoStreamInfo
+        {
+            get
+            { 
+                return _videoStreamInfo; 
+            }
+            set
+            {
+                Tizen.Log.Error("XSFIMP", "Enter");
+                _videoStreamInfo = value;
+                esPlayer.SetStream(_videoStreamInfo);
+                UpdateStreamInfo?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public AudioStreamInfo AudioStreamInfo
+        {
+            get
+            {
+                return _audioStreamInfo;
+            }
+            set
+            {
+                Tizen.Log.Error("XSFIMP", "Enter");
+                _audioStreamInfo = value;
+                esPlayer.SetStream(_audioStreamInfo);
+                UpdateStreamInfo?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        void OnResourceConflicted(object sender, ResourceConflictEventArgs e)
+        {
+            Tizen.Log.Error("XSFIMP", "Enter");
+            ResourceConflicted?.Invoke(sender, e);
+        }
+
+        void OnBufferStatusChanged(object sender, BufferStatusEventArgs e)
+        {
+            Tizen.Log.Error("XSFIMP", $"Enter {e.BufferStatus}");
+            BufferStatusChanged?.Invoke(sender, e);
+        }
+
+        void OnErrorOccurred(object sender, Multimedia.ErrorEventArgs e)
+        {
+            Tizen.Log.Error("XSFIMP", "Enter");
+            ErrorOccurred?.Invoke(sender, e);
+        }
+
+        void OnEOSEmitted(object sender, EOSEventArgs e)
+        {
+            Tizen.Log.Error("XSFIMP", "Enter");
+            EOSEmitted?.Invoke(sender, e);
+        }
+
+        async Task ChangeToIdleState()
+        {
+            switch (esPlayer.GetState())
+            {
+                case ESPlayerState.Playing:
+                case ESPlayerState.Paused:
+                    esPlayer.Stop();
+                    esPlayer.Close();
+                    break;
+                case ESPlayerState.Ready:
+                    esPlayer.Close();
+                    break;
+            }
+        }
+
+        async void OnReadyToPrepare(Tizen.TV.Multimedia.StreamType streamType)
+        {
+            Log.Error("XSFIMP", $"Stream Type : {streamType}");
+
+            switch (streamType)
+            {
+                case Tizen.TV.Multimedia.StreamType.Audio:
+                    StreamReady?.Invoke(this, new StreamEventArgs(StreamType.Audio));
+                    break;
+                case Tizen.TV.Multimedia.StreamType.Video:
+                    StreamReady?.Invoke(this, new StreamEventArgs(StreamType.Video));
+                    break;
+            }
+        }
+
+
+        async void OnSeekReady(TM.StreamType streamType, TimeSpan time)
+        {
+            Tizen.Log.Error("XSFIMP", $"Enter {streamType} : {time}");
+            switch (streamType)
+            {
+                case TM.StreamType.Audio:
+                    SeekReady?.Invoke(this, new SeekEventArgs(StreamType.Audio, time));
+                    break;
+                case TM.StreamType.Video:
+                    SeekReady?.Invoke(this, new SeekEventArgs(StreamType.Video, time));
+                    break;
             }
         }
 
@@ -94,9 +365,6 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
 
         IOverlayOutput OverlayOutput => TargetView as IOverlayOutput;
 
-        bool IsOverlayMode => OverlayOutput != null;
-
-
         void ApplyDisplay()
         {
             Tizen.Log.Error("XSFIMP", "Enter");
@@ -104,24 +372,6 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
             {
                 esPlayer.SetDisplay(null);
             }
-            //else if (!IsOverlayMode)
-            //{
-            //    Log.Error("XSF", "Error on MediaView");
-            //    var renderer = Platform.GetRenderer(TargetView);
-            //    if (renderer is IMediaViewProvider provider && provider.GetMediaView() != null)
-            //    {
-            //        try
-            //        {
-            //            //Display display = new Display(provider.GetMediaView());
-            //            //_player.Display = display;
-            //            //_player.DisplaySettings.Mode = _aspectMode.ToMultimeida();
-            //        }
-            //        catch
-            //        {
-            //            Log.Error("XSF", "Error on MediaView");
-            //        }
-            //    }
-            //}
             else
             {
                 esPlayer.SetDisplay(TVForms.UIControls.MainWindowProvider());
@@ -182,275 +432,6 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
         }
 
 
-        public void SetDisplay(IVideoOutput output)
-        {
-            Tizen.Log.Error("XSFIMP", "Enter: IVideoOutput");
-            VideoOutput = output;
-        }
-
-        //public void SetDisplay(ElmSharp.Window window)
-        //{
-        //    Tizen.Log.Error("XSFIMP", "Not called ******************");
-        //    esPlayer.SetDisplay(window);
-        //}
-
-
-        public void SetSource(MediaSource source)
-        {
-            //Tizen.Log.Error("XSFIMP", "Enter");
-            //_source = source;
-        }
-
-        public void Open()
-        {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            esPlayer.Open();
-
-            //The Tizen TV emulator is based on the x86 architecture. Using trust zone (DRM'ed content playback) is not supported by the emulator.
-            if (RuntimeInformation.ProcessArchitecture != Architecture.X86)
-            {
-                esPlayer.SetTrustZoneUse(true);
-            }
-
-            Tizen.Log.Error("XSFIMP", "Enter");
-        }
-
-        public event EventHandler<EOSEventArgs> EOSEmitted;
-
-        public event EventHandler<Multimedia.ErrorEventArgs> ErrorOccurred;
-
-        public event EventHandler<BufferStatusEventArgs> BufferStatusChanged;
-
-        public event EventHandler<ResourceConflictEventArgs> ResourceConflicted;
-
-        public event EventHandler AudioReady;
-
-        public event EventHandler VideoReady;
-
-
-        //public async Task<bool> Prepare(Action<StreamType> onReadyToPrepare)
-        //{
-        //    Tizen.Log.Error("XSFIMP", $"Enter : {esPlayer.GetState()}");
-        //    await esPlayer.PrepareAsync(onReadyToPrepare);
-        //    //if (esPlayer.GetState() == ESPlayerState.Ready)
-        //    //{
-        //    //    await esPlayer.PrepareAsync(onReadyToPrepare);
-        //    //}
-        //    //else 
-        //    //{
-        //    //    return false;
-        //    //}
-        //    return true;
-        //}
-
-        async void OnReadyToPrepare(StreamType streamType)
-        {
-            Log.Error("XSFIMP", $"Stream Type : {streamType}");
-
-            switch (streamType)
-            {
-                case StreamType.Audio:
-                    AudioReady?.Invoke(this, new EventArgs());
-                    break;
-                case StreamType.Video:
-                    VideoReady?.Invoke(this, new EventArgs());
-                    break;
-            }
-        }
-
-
-        public async Task<bool> Start()
-        {
-            if (_tcsSubmit == null || _tcsSubmit.Task.IsCompleted)
-            {
-                Tizen.Log.Error("XSFIMP", "Enter");
-                Tizen.Log.Error("XSFIMP", "Enter");
-                _tcsSubmit = new TaskCompletionSource<bool>();
-            }
-
-            Tizen.Log.Error("XSFIMP", "Enter");
-            await esPlayer.PrepareAsync(OnReadyToPrepare);
-
-            Tizen.Log.Error("XSFIMP", "Enter");
-            Tizen.Log.Error("XSFIMP", "Enter");
-            if (esPlayer.GetState() == ESPlayerState.Ready)
-            {
-                Tizen.Log.Error("XSFIMP", "Enter");
-                Tizen.Log.Error("XSFIMP", "Enter");
-                await _tcsSubmit.Task;
-
-                Tizen.Log.Error("XSFIMP", "Enter");
-                esPlayer.Start();
-
-                Tizen.Log.Error("XSFIMP", "Enter");
-                //ApplyDisplay();
-                //Tizen.Log.Error("XSFIMP", "Enter");
-            }
-            else
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public SubmitStatus SubmitPacket(ESPacket packet)
-        {
-            if (packet.type == StreamType.Audio)
-                audioSubmit++;
-            else
-                videoSubmit++;
-
-            if (audioSubmit >= 10 && videoSubmit >= 10)
-                _tcsSubmit?.TrySetResult(true);
-
-            Tizen.Log.Error("XSFIMP", $"Enter {audioSubmit} {videoSubmit} {packet.type}");
-            return esPlayer.SubmitPacket(packet);
-        }
-
-        public SubmitStatus SubmitEosPacket(StreamType type)
-        {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            return esPlayer.SubmitEosPacket(type);
-        }
-
-        public SubmitStatus SubmitPacket(ESHandlePacket packet)
-        {
-            //Tizen.Log.Error("XSFIMP", "Enter");
-            return esPlayer.SubmitPacket(packet);
-        }
-
-        public ESPlayerState State
-        {
-            get { return esPlayer.GetState(); }
-        }
-
-        public async Task<int> Seek(int ms)
-        {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            TimeSpan time = new TimeSpan(0, 0, 0, 0, ms);
-
-            await esPlayer.SeekAsync(time, OnReadyToSeek);
-            Tizen.Log.Error("XSF", "Etner");
-            return -1;
-        }
-
-        async void OnReadyToSeek(StreamType streamType, TimeSpan time)
-        {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            switch (streamType)
-            {
-                case StreamType.Audio:
-                    AudioReady?.Invoke(this, new EventArgs());
-                    break;
-                case StreamType.Video:
-                    VideoReady?.Invoke(this, new EventArgs());
-                    break;
-            }
-        }
-
-        public TimeSpan PlayingTime
-        {
-            get
-            {
-                //Tizen.Log.Error("XSFIMP", "Enter");
-                TimeSpan time;
-                esPlayer.GetPlayingTime(out time);
-                return time;
-            }
-        }
-
-        public VideoStreamInfo VideoStreamInfo
-        {
-            get
-            { 
-                return _videoStreamInfo; 
-            }
-            set
-            {
-                Tizen.Log.Error("XSFIMP", "Enter");
-                _videoStreamInfo = value;
-                esPlayer.SetStream(_videoStreamInfo);
-            }
-        }
-
-        public AudioStreamInfo AudioStreamInfo
-        {
-            get
-            {
-                return _audioStreamInfo;
-            }
-            set
-            {
-                Tizen.Log.Error("XSFIMP", "Enter");
-                _audioStreamInfo = value;
-                esPlayer.SetStream(_audioStreamInfo);
-            }
-        }
-
-        void OnResourceConflicted(object sender, ResourceConflictEventArgs e)
-        {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            ResourceConflicted?.Invoke(sender, e);
-        }
-
-        void OnBufferStatusChanged(object sender, BufferStatusEventArgs e)
-        {
-            Tizen.Log.Error("XSFIMP", $"Enter {e.BufferStatus}");
-            BufferStatusChanged?.Invoke(sender, e);
-        }
-
-        void OnErrorOccurred(object sender, Multimedia.ErrorEventArgs e)
-        {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            ErrorOccurred?.Invoke(sender, e);
-        }
-
-        void OnEOSEmitted(object sender, EOSEventArgs e)
-        {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            EOSEmitted?.Invoke(sender, e);
-        }
-
-        public void Stop()
-        {
-            Tizen.Log.Error("XSF", "Etner");
-        }
-
-        public bool UsesEmbeddingControls { get; set; }
-
-        public bool AutoPlay { get; set; }
-
-        public bool AutoStop { get; set; }
-
-        public double Volume { get; set; }
-
-        public bool IsMuted { get; set; }
-
-        public int Position { get; set; }
-
-        public int Duration { get; set; }
-
-        public DisplayAspectMode AspectMode { get; set; }
-
-        public event EventHandler PlaybackCompleted;
-        public event EventHandler PlaybackStarted;
-        public event EventHandler PlaybackPaused;
-        public event EventHandler PlaybackStopped;
-        public event EventHandler UpdateStreamInfo;
-        public event EventHandler<BufferingProgressUpdatedEventArgs> BufferingProgressUpdated;
-
-        public async Task<Stream> GetAlbumArts()
-        {
-            Tizen.Log.Error("XSF", "Etner");
-            return new MemoryStream();
-        }
-
-        public async Task<IDictionary<string, string>> GetMetadata()
-        {
-            Tizen.Log.Error("XSF", "Etner");
-            Dictionary<string, string> metadata = new Dictionary<string, string>();
-            return metadata;
-        }
     }
 
     public static class MultimediaConvertExtensions

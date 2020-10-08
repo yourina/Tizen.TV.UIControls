@@ -24,7 +24,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Tizen.TV.UIControls.Forms;
 using Tizen.TV.Multimedia;
-
+using TM = Tizen.TV.Multimedia;
 
 namespace Tizen.TV.Extension.UIControls.Forms
 {
@@ -46,11 +46,17 @@ namespace Tizen.TV.Extension.UIControls.Forms
             _esImpl.BufferStatusChanged += SendBufferStatusChanged;
             _esImpl.EOSEmitted += SendEOSEmitted;
             _esImpl.ErrorOccurred += SendErrorOccurred;
-            _esImpl.AudioReady += SendAudioReady;
-            _esImpl.VideoReady += SendVideoReady;
+            _esImpl.StreamReady += SendStreamReady;
+            //_esImpl.VideoReady += SendVideoReady;
+            _esImpl.SeekReady += SendSeekReady;
 
-            _esImpl.Open();
-            Tizen.Log.Error("XSF", "Enter");
+            //_esImpl.Open();
+            Tizen.Log.Error("XSF", "Enter + remove open");
+        }
+
+        void SendSeekReady(object sender, SeekEventArgs e)
+        {
+            SeekReady?.Invoke(sender, e);
         }
 
         protected override IPlatformMediaPlayer CreateMediaPlayerImpl()
@@ -79,7 +85,6 @@ namespace Tizen.TV.Extension.UIControls.Forms
 
         public void Resume()
         {
-            Tizen.Log.Error("XSF", "Enter");
             Tizen.Log.Error("XSIMPF", "Enter");
             _esImpl.Resume();
         }
@@ -100,17 +105,17 @@ namespace Tizen.TV.Extension.UIControls.Forms
             }
         }
 
-        public ESPlayerState State
-        {
-            get { return _esImpl.State; }
-        }
+        //public ESPlayerState State
+        //{
+        //    get { return _esImpl.State; }
+        //}
 
         public TimeSpan PlayingTime
         {
             get { return _esImpl.PlayingTime; }
         }
 
-        public SubmitStatus SubmitEosPacket(StreamType type)
+        public SubmitStatus SubmitEosPacket(TM.StreamType type)
         {
             return _esImpl.SubmitEosPacket(type);
         }
@@ -133,19 +138,21 @@ namespace Tizen.TV.Extension.UIControls.Forms
 
         public event EventHandler<ResourceConflictEventArgs> ResourceConflicted;
 
-        public event EventHandler AudioReady;
+       //public event EventHandler AudioReady;
 
-        public event EventHandler VideoReady;
+        public event EventHandler<StreamEventArgs> StreamReady;
 
-        void SendVideoReady(object sender, EventArgs e)
+        public event EventHandler<SeekEventArgs> SeekReady;
+
+        void SendStreamReady(object sender, StreamEventArgs e)
         {
-            VideoReady?.Invoke(sender, e);
+            StreamReady?.Invoke(sender, e);
         }
 
-        void SendAudioReady(object sender, EventArgs e)
-        {
-            AudioReady?.Invoke(sender, e);
-        }
+        //void SendAudioReady(object sender, EventArgs e)
+        //{
+        //    AudioReady?.Invoke(sender, e);
+        //}
 
         void SendErrorOccurred(object sender, Multimedia.ErrorEventArgs e)
         {

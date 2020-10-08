@@ -105,7 +105,7 @@ namespace Tizen.TV.UIControls.Forms
         {
             if(_impl == null)
                 _impl = CreateMediaPlayerImpl();
-            //_impl = DependencyService.Get<IPlatformMediaPlayer>(fetchTarget: DependencyFetchTarget.NewInstance);
+
             _impl.UpdateStreamInfo += OnUpdateStreamInfo;
             _impl.PlaybackCompleted += SendPlaybackCompleted;
             _impl.PlaybackStarted += SendPlaybackStarted;

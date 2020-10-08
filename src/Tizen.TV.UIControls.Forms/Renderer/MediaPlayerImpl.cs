@@ -46,7 +46,6 @@ namespace Tizen.TV.UIControls.Forms.Renderer
 
             _player.PlaybackCompleted += OnPlaybackCompleted;
             _player.BufferingProgressChanged += OnBufferingProgressChanged;
-            Tizen.Log.Error("XSF","Etner");
         }
 
         protected virtual Player CreateMediaPlayer()

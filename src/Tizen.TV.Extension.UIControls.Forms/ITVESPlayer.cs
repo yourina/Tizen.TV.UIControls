@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Xamarin.Forms.Internals;
 using Tizen.TV.UIControls.Forms;
 using Tizen.TV.Multimedia;
+using TM = Tizen.TV.Multimedia;
 
 namespace Tizen.TV.Extension.UIControls.Forms
 {
     public interface ITVESPlayer : IPlatformMediaPlayer
     {
-        void Open();
+        //void Open();
 
         //Task<bool> Prepare(Action<StreamType> onReadyToPrepare);
 
@@ -19,7 +20,7 @@ namespace Tizen.TV.Extension.UIControls.Forms
 
         SubmitStatus SubmitPacket(ESPacket packet);
 
-        SubmitStatus SubmitEosPacket(StreamType type);
+        SubmitStatus SubmitEosPacket(TM.StreamType type);
 
         SubmitStatus SubmitPacket(ESHandlePacket packet);
 
@@ -31,11 +32,15 @@ namespace Tizen.TV.Extension.UIControls.Forms
 
         event EventHandler<ResourceConflictEventArgs> ResourceConflicted;
 
-        event EventHandler AudioReady;
+        //event EventHandler AudioReady;
 
-        event EventHandler VideoReady;
+        //event EventHandler VideoReady;
 
-        ESPlayerState State { get; }
+        event EventHandler<StreamEventArgs> StreamReady;
+
+        event EventHandler<SeekEventArgs> SeekReady;
+
+        //ESPlayerState State { get; }
 
         TimeSpan PlayingTime { get; }
 
@@ -46,4 +51,35 @@ namespace Tizen.TV.Extension.UIControls.Forms
         void Resume();
 
     }
+
+    public enum StreamType
+    {
+        Audio,
+        Video
+    }
+
+    public class StreamEventArgs : EventArgs
+    {
+        public StreamEventArgs(StreamType type)
+        {
+            Type = type;
+        }
+
+        public StreamType Type { get; set; }
+    }
+
+    public class SeekEventArgs : EventArgs
+    {
+        public SeekEventArgs(StreamType type, TimeSpan time)
+        {
+            Type = type;
+            Time = time;
+        }
+
+        public TimeSpan Time { get; set; }
+
+        public StreamType Type { get; set; }
+    }
+
+
 }
