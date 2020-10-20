@@ -41,7 +41,7 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
             {
                 esPlayer.SetTrustZoneUse(true);
             }
-            Tizen.Log.Error("XSFIMP", $"Enter {esPlayer} : 1008 + 0858 PM + SeekReady + PrepareReady");
+            Tizen.Log.Error("XSFIMP", $"Enter {esPlayer} : 1020 : 0634 ---------------**************==================***********");
         }
 
         public async Task<bool> Start()
@@ -110,21 +110,21 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
         public SubmitStatus SubmitPacket(ESPacket packet)
         {
             _tcsSubmit?.TrySetResult(true);
-            Tizen.Log.Error("XSF", $"Enter : {packet.type}");
-            return esPlayer.SubmitPacket(packet);
+            Tizen.Log.Error("XSFIMP", $"Extension ESPacket Submit : {packet.type}");
+            return esPlayer.SubmitPacket(packet.ToESPacket()).ToSubmitStatus();
         }
 
-        public SubmitStatus SubmitEosPacket(Tizen.TV.Multimedia.StreamType type)
+        public SubmitStatus SubmitEosPacket(StreamType type)
         {
             Tizen.Log.Error("XSFIMP", $"Enter {Position}");
-            var status = esPlayer.SubmitEosPacket(type);
+            var status = esPlayer.SubmitEosPacket(type.ToStreamType()).ToSubmitStatus();
             return status;
         }
 
         public SubmitStatus SubmitPacket(ESHandlePacket packet)
         {
             Tizen.Log.Error("XSF", $"Enter {Position}");
-            return esPlayer.SubmitPacket(packet);
+            return esPlayer.SubmitPacket(packet.ToESHandlePacket()).ToSubmitStatus();
         }
 
         public async Task<int> Seek(int ms)
@@ -155,10 +155,10 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
         public event EventHandler<BufferingProgressUpdatedEventArgs> BufferingProgressUpdated;
 
 
-        public event EventHandler<EOSEventArgs> EOSEmitted;
-        public event EventHandler<Multimedia.ErrorEventArgs> ErrorOccurred;
+        public event EventHandler EOSEmitted;
+        public event EventHandler ResourceConflicted;
+        public event EventHandler<ErrorEventArgs> ErrorOccurred;
         public event EventHandler<BufferStatusEventArgs> BufferStatusChanged;
-        public event EventHandler<ResourceConflictEventArgs> ResourceConflicted;
         public event EventHandler<StreamEventArgs> StreamReady;
         //public event EventHandler VideoReady;
         public event EventHandler<SeekEventArgs> SeekReady;
@@ -216,7 +216,7 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
             }
             set
             {
-                Tizen.Log.Error("XSFIMP","Enter ****************");
+                Tizen.Log.Error("XSFIMP", "Enter");
                 _aspectMode = value;
                 esPlayer.SetDisplayMode(_aspectMode.ToMultimeida());
             }
@@ -253,7 +253,18 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
             {
                 Tizen.Log.Error("XSFIMP", "Enter");
                 _videoStreamInfo = value;
-                esPlayer.SetStream(_videoStreamInfo);
+
+                TM.VideoStreamInfo info = new TM.VideoStreamInfo();
+                info.codecData = _videoStreamInfo.codecData;
+                info.mimeType = _videoStreamInfo.mimeType.ToMimeType();
+                info.num = _videoStreamInfo.num;
+                info.den = _videoStreamInfo.den;
+                info.height = _videoStreamInfo.height;
+                info.maxHeight = _videoStreamInfo.maxHeight;
+                info.width = _videoStreamInfo.width;
+                info.maxWidth = _videoStreamInfo.maxWidth;
+
+                esPlayer.SetStream(info);
                 UpdateStreamInfo?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -268,33 +279,39 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
             {
                 Tizen.Log.Error("XSFIMP", "Enter");
                 _audioStreamInfo = value;
-                esPlayer.SetStream(_audioStreamInfo);
+
+                TM.AudioStreamInfo info = new TM.AudioStreamInfo();
+                info.mimeType = _audioStreamInfo.mimeType.ToMimeType();
+                info.codecData = _audioStreamInfo.codecData;
+                info.channels = _audioStreamInfo.channels;
+                info.bitrate = _audioStreamInfo.bitrate;
+                info.sampleRate = _audioStreamInfo.sampleRate;
+                esPlayer.SetStream(info);
+
                 UpdateStreamInfo?.Invoke(this, EventArgs.Empty);
             }
         }
 
         void OnResourceConflicted(object sender, ResourceConflictEventArgs e)
         {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            ResourceConflicted?.Invoke(sender, e);
+            ResourceConflicted?.Invoke(sender, EventArgs.Empty);
         }
 
-        void OnBufferStatusChanged(object sender, BufferStatusEventArgs e)
+        void OnBufferStatusChanged(object sender, TM.BufferStatusEventArgs e)
         {
-            Tizen.Log.Error("XSFIMP", $"Enter {e.BufferStatus}");
-            BufferStatusChanged?.Invoke(sender, e);
+            Tizen.Log.Error("XSFIMP", $"Enter {e.StreamType} {e.BufferStatus}");
+            BufferStatusChanged?.Invoke(sender, new BufferStatusEventArgs(e.StreamType.ToStreamType(), e.BufferStatus.ToBufferStatus()));
         }
 
         void OnErrorOccurred(object sender, Multimedia.ErrorEventArgs e)
         {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            ErrorOccurred?.Invoke(sender, e);
+            ErrorOccurred?.Invoke(sender, new ErrorEventArgs(e.ErrorType.ToErrorType()));
         }
 
         void OnEOSEmitted(object sender, EOSEventArgs e)
         {
-            Tizen.Log.Error("XSFIMP", "Enter");
-            EOSEmitted?.Invoke(sender, e);
+            Tizen.Log.Error("XSFIMP", $"Enter {esPlayer.GetState()}");
+            EOSEmitted?.Invoke(sender, EventArgs.Empty);
         }
 
         async Task ChangeToIdleState()
@@ -432,29 +449,5 @@ namespace Tizen.TV.Extension.UIControls.Forms.Renderer
         }
 
 
-    }
-
-    public static class MultimediaConvertExtensions
-    {
-        public static DisplayMode ToMultimeida(this DisplayAspectMode mode)
-        {
-            DisplayMode ret = DisplayMode.LetterBox;
-            switch (mode)
-            {
-                case DisplayAspectMode.AspectFill:
-                    ret = DisplayMode.CroppedFull;
-                    break;
-                case DisplayAspectMode.AspectFit:
-                    ret = DisplayMode.LetterBox;
-                    break;
-                case DisplayAspectMode.Fill:
-                    ret = DisplayMode.FullScreen;
-                    break;
-                case DisplayAspectMode.OrignalSize:
-                    ret = DisplayMode.OriginSize;
-                    break;
-            }
-            return ret;
-        }
     }
 }

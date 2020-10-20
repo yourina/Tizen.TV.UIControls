@@ -15,13 +15,7 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 using Tizen.TV.UIControls.Forms;
 using Tizen.TV.Multimedia;
 using TM = Tizen.TV.Multimedia;
@@ -47,37 +41,15 @@ namespace Tizen.TV.Extension.UIControls.Forms
             _esImpl.EOSEmitted += SendEOSEmitted;
             _esImpl.ErrorOccurred += SendErrorOccurred;
             _esImpl.StreamReady += SendStreamReady;
-            //_esImpl.VideoReady += SendVideoReady;
             _esImpl.SeekReady += SendSeekReady;
 
-            //_esImpl.Open();
-            Tizen.Log.Error("XSF", "Enter + remove open");
-        }
-
-        void SendSeekReady(object sender, SeekEventArgs e)
-        {
-            SeekReady?.Invoke(sender, e);
+            Tizen.Log.Error("XSF", "Enter");
         }
 
         protected override IPlatformMediaPlayer CreateMediaPlayerImpl()
         {
             return DependencyService.Get<ITVESPlayer>(fetchTarget: DependencyFetchTarget.NewInstance) as IPlatformMediaPlayer;
         }
-
-        //public void Open()
-        //{
-        //    //_esImpl.Open();
-        //}
-
-        //public Task Prepare(Action<StreamType> onReadyToPrepare)
-        //{
-        //    return _esImpl.Prepare(onReadyToPrepare);
-        //}
-
-        //public void SetDisplay(ElmSharp.Window window)
-        //{
-        //    //_esImpl.SetDisplay(window);
-        //}
 
         public void Close()
         {
@@ -89,7 +61,7 @@ namespace Tizen.TV.Extension.UIControls.Forms
             _esImpl.Resume();
         }
 
-        public Multimedia.AudioStreamInfo AudioStreamInfo
+        public AudioStreamInfo AudioStreamInfo
         {
             set 
             {
@@ -97,7 +69,7 @@ namespace Tizen.TV.Extension.UIControls.Forms
             }
         }
 
-        public Multimedia.VideoStreamInfo VideoStreamInfo
+        public VideoStreamInfo VideoStreamInfo
         {
             set
             {
@@ -105,17 +77,12 @@ namespace Tizen.TV.Extension.UIControls.Forms
             }
         }
 
-        //public ESPlayerState State
-        //{
-        //    get { return _esImpl.State; }
-        //}
-
         public TimeSpan PlayingTime
         {
             get { return _esImpl.PlayingTime; }
         }
 
-        public SubmitStatus SubmitEosPacket(TM.StreamType type)
+        public SubmitStatus SubmitEosPacket(StreamType type)
         {
             return _esImpl.SubmitEosPacket(type);
         }
@@ -130,36 +97,35 @@ namespace Tizen.TV.Extension.UIControls.Forms
             return _esImpl.SubmitPacket(packet);
         }
 
-        public event EventHandler<EOSEventArgs> EOSEmitted;
+        public event EventHandler EOSEmitted;
 
-        public event EventHandler<Multimedia.ErrorEventArgs> ErrorOccurred;
+        public event EventHandler ResourceConflicted;
+
+        public event EventHandler<ErrorEventArgs> ErrorOccurred;
 
         public event EventHandler<BufferStatusEventArgs> BufferStatusChanged;
-
-        public event EventHandler<ResourceConflictEventArgs> ResourceConflicted;
-
-       //public event EventHandler AudioReady;
 
         public event EventHandler<StreamEventArgs> StreamReady;
 
         public event EventHandler<SeekEventArgs> SeekReady;
+ 
+        void SendSeekReady(object sender, SeekEventArgs e)
+        {
+            SeekReady?.Invoke(sender, e);
+        }
+
 
         void SendStreamReady(object sender, StreamEventArgs e)
         {
             StreamReady?.Invoke(sender, e);
         }
 
-        //void SendAudioReady(object sender, EventArgs e)
-        //{
-        //    AudioReady?.Invoke(sender, e);
-        //}
-
-        void SendErrorOccurred(object sender, Multimedia.ErrorEventArgs e)
+        void SendErrorOccurred(object sender, ErrorEventArgs e)
         {
             ErrorOccurred?.Invoke(sender, e);
         }
 
-        void SendEOSEmitted(object sender, EOSEventArgs e)
+        void SendEOSEmitted(object sender, EventArgs e)
         {
             EOSEmitted?.Invoke(sender, e);
         }
@@ -169,7 +135,7 @@ namespace Tizen.TV.Extension.UIControls.Forms
             BufferStatusChanged?.Invoke(sender, e);
         }
 
-        void SendResourceConflicted(object sender, ResourceConflictEventArgs e)
+        void SendResourceConflicted(object sender, EventArgs e)
         {
             ResourceConflicted?.Invoke(sender, e);
         }
